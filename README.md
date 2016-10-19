@@ -2,7 +2,7 @@
 
 This game is inspired by 'Vicious Viper' which was a game made by F. Kahlig fromSpare Time Software in 1990. The game is for Android and is using the [libGDX framework](https://github.com/libgdx/libgdx).
 
-You can follow my development blog on http://goo.gl/KvKHze for the latest news on this and other projects of mine.
+You can follow my development blog on <a href="http://goo.gl/KvKHze">http://therefactory.bplaced.net</a> for the latest news on this and other projects of mine.
 
 ***
 
@@ -16,7 +16,7 @@ https://goo.gl/g0przi
 
 **PROMOTION VIDEO**
 
-Watch our promotion video showing in-game footage on youtube here:
+Watch our promotion video showing in-game footage on YouTube here:
 
 https://www.youtube.com/watch?v=hgRVLA6Kw5A
 
