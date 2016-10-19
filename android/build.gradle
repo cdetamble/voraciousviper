@@ -16,7 +16,7 @@ android {
     }
     defaultConfig {
         applicationId "net.bplaced.therefactory.voraciousviper"
-        minSdkVersion 11
+        minSdkVersion 8
         targetSdkVersion 24
         versionCode 4
         versionName "1.0.0"
