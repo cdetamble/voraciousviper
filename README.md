@@ -22,7 +22,9 @@ https://www.youtube.com/watch?v=hgRVLA6Kw5A
 
 ***
 
-![](http://therefactory.bplaced.net/projects-json/jewelthief/screenshots/device-2016-08-23-163225.png)
+![](https://github.com/frittatenbank/voraciousviper/raw/master/excluded-resources/screenshots/en/1.png)
+![](https://github.com/frittatenbank/voraciousviper/raw/master/excluded-resources/screenshots/en/2.png)
+![](https://github.com/frittatenbank/voraciousviper/raw/master/excluded-resources/screenshots/en/3.png)
 
 ***
 
