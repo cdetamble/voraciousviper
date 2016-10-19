@@ -2,27 +2,29 @@
 
 This game is inspired by 'Vicious Viper' which was a game made by F. Kahlig fromSpare Time Software in 1990. The game is for Android and is using the [libGDX framework](https://github.com/libgdx/libgdx).
 
-You can follow my development blog on http://goo.gl/KvKHze for the latest news on this and other projects of mine.
+You can follow my <a href="https://goo.gl/U0x1Fy">development blog</a> for the latest news on this and other projects of mine.
 
 ***
 
 **DOWNLOAD THE APP**
 
-App now available on Google Play Store:
+App now available on Google Play Store.
 
-https://goo.gl/g0przi
+<a href="https://goo.gl/g0przi"><img src="http://therefactory.bplaced.net/img/google-play-badge.png" width="180"></a>
 
 ***
 
 **PROMOTION VIDEO**
 
-Watch our promotion video showing in-game footage on youtube here:
+Watch the promotion video showing in-game footage.
 
 https://www.youtube.com/watch?v=hgRVLA6Kw5A
 
 ***
 
-![](http://therefactory.bplaced.net/projects-json/jewelthief/screenshots/device-2016-08-23-163225.png)
+![](https://github.com/frittatenbank/voraciousviper/raw/master/excluded-resources/screenshots/en/1.png)
+![](https://github.com/frittatenbank/voraciousviper/raw/master/excluded-resources/screenshots/en/2.png)
+![](https://github.com/frittatenbank/voraciousviper/raw/master/excluded-resources/screenshots/en/3.png)
 
 ***
 
