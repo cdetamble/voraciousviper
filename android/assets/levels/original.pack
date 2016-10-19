@@ -1,0 +1,152 @@
+------------------------------------------------------------Level-1
+Rectangular ( 0, 0) (25,17)     Blocking   Wall
+Line        ( 6, 8) ( 6,12)     Consumable Meat
+Line        (10, 8) (10,12)     Consumable Meat
+Point       ( 7, 7)             Consumable Meat
+Point       ( 8, 6)             Consumable Meat
+Point       ( 9, 7)             Consumable Meat
+Line        (16, 8) (16,12)     Consumable Meat
+Line        (20, 8) (20,12)     Consumable Meat
+Point       (17, 7)             Consumable Meat
+Point       (18, 6)             Consumable Meat
+Point       (19, 7)             Consumable Meat
+Line        (12, 7) (12,11)     Consumable Beer
+Point       (13, 6)             Consumable Beer
+Line        (14, 7) (14,11)     Consumable Beer
+Line        (22, 6) (22,12)     Consumable Beer
+Point       (13,12)             Blocking   Skull.1 Skull.2
+Point       (22,14)             Blocking   Skull.1 Skull.2
+------------------------------------------------------------Level-2
+Rectangular ( 0, 0) (25,17)     Blocking   Wall
+Grid        ( 6, 5) (10,13) 1,1 Consumable Coke
+Grid        (12, 6) (16,12) 1,1 Consumable Meat
+Grid        (18, 5) (22,13) 1,1 Consumable Coke
+------------------------------------------------------------Level-3
+Rectangular ( 0, 0) (25,17)     Blocking   Wall
+Line        ( 5, 3) (12,10)     Consumable Burger
+Line        (14,10) (21, 3)     Consumable Burger
+Line        ( 5, 1) (13, 9)     Consumable Wine
+Line        ( 7, 1) (14, 8)     Consumable Wine
+Line        ( 9, 1) (12, 4)     Consumable Wine
+Line        (14, 6) (15, 7)     Consumable Wine
+Line        (11, 1) (16, 6)     Consumable Wine
+Line        (14, 2) (17, 5)     Consumable Wine
+Line        (15, 1) (18, 4)     Consumable Wine
+Line        (17, 1) (19, 3)     Consumable Wine
+Line        (19, 1) (20, 2)     Consumable Wine
+Point       (13, 11)            Blocking   Poison.1 Poison.2
+Point       (21, 1)             Consumable Wine
+Point       (13, 5)             Key        Key.1    Key.2
+Point       (13, 1)             Door       Door
+------------------------------------------------------------Level-4
+Rectangular ( 0, 0) (25,17)     Blocking   Wall
+Point       (13, 1)             Blocking   Wall
+Line        (13, 4) (13, 8)     Blocking   Wall
+Point       (13, 9)             Door       Door
+Line        (13,10) (13,13)     Blocking   Wall
+Point       (13,16)             Blocking   Wall
+Grid        ( 5, 4) (11, 4) 2,1 Consumable Burger
+Grid        ( 5,13) (11,13) 2,1 Consumable Burger
+Grid        (16, 4) (22,12) 1,3 Consumable Beer
+Grid        (17, 6) (21,10) 1,3 Consumable Beer
+Point       (16,15)             Blocking   Skull.1 Skull.2
+Point       (22,15)             Blocking   Skull.1 Skull.2
+------------------------------------------------------------Level-5
+Rectangular ( 0, 0) (25,17)     Blocking   Wall
+Point       ( 1,16)             Key        Key.1 Key.2
+Point       ( 1,10)             Door       Door
+Line        ( 2,10) (19,10)     Blocking   Wall
+Line        ( 2, 8) (19, 8)     Blocking   Wall
+Line        (19,11) (19,12)     Blocking   Wall
+Line        (19,14) (19,16)     Blocking   Wall
+Line        (19, 4) (19, 8)     Blocking   Wall
+Line        (19, 1) (19, 2)     Blocking   Wall
+Grid        ( 7, 9) (16, 9) 2,1 Consumable Burger
+Grid        ( 7,12) (16,12) 2,1 Consumable Coke
+Grid        ( 7, 6) (16, 6) 2,1 Consumable Coke
+Point       (23, 9)             Blocking   Skull.1 Skull.2
+Point       (23,12)             Consumable Coke
+Point       (23, 5)             Consumable Coke
+------------------------------------------------------------Level-6
+Rectangular ( 0, 0) (25,17)     Blocking   Wall
+Point       (13, 9)             Blocking   Poison.1 Poison.2
+Line        (11, 9) (13,11)     Consumable Cake
+Line        (13, 7) (15, 9)     Consumable Cake
+Point       (12, 8)             Consumable Cake
+Point       (14,10)             Consumable Cake
+Line        (10, 9) (13,12)     Consumable Wine
+Line        (11, 8) (13, 6)     Consumable Wine
+Line        (14, 7) (16, 9)     Consumable Wine
+Line        (14,11) (15,10)     Consumable Wine
+Grid        ( 2, 2) (23,15) 20,12 Blocking  Poison.1 Poison.2
+Grid        ( 3, 3) (22,14) 18,10 Consumable Cake
+Grid        ( 4, 4) (21,13) 16,8 Consumable Cake
+Line        (13, 1) (13, 3)     Blocking   Wall
+Line        (13,15) (13,16)     Blocking   Wall
+Line        (20, 9) (24, 9)     Blocking   Wall
+------------------------------------------------------------Level-7
+Rectangular ( 0, 0) (25,17)     Blocking   Wall
+Point       ( 9, 9)             Door       Door
+Line        ( 9, 1) ( 9, 8)     Blocking   Wall
+Line        ( 9,10) ( 9,16)     Blocking   Wall
+Grid        (16, 3) (18, 5) 0,0 Consumable Cake
+Line        (13, 6) (21, 6)     Consumable Cake
+Line        (14, 7) (20, 7)     Consumable Cake
+Line        (15, 8) (19, 8)     Consumable Cake
+Line        (16, 9) (18, 9)     Consumable Cake
+Point       (17,10)             Consumable Cake
+Point       (17,15)             Blocking   Skull.1 Skull.2
+Point       ( 7,15)             Key        Key.1 Key.2
+Grid        ( 1,15) ( 5,15) 1,1 Consumable Beer
+Grid        ( 2,13) ( 6,13) 1,1 Consumable Beer
+Grid        ( 2, 6) ( 6, 6) 1,1 Consumable Beer
+Grid        ( 1, 3) ( 5, 3) 1,1 Consumable Beer
+Point       ( 7, 3)             Blocking   Skull.1 Skull.2
+------------------------------------------------------------Level-8
+Rectangular ( 0, 0) (25,17)     Blocking   Wall
+Grid        ( 5, 8) ( 7,12) 0,0 Consumable Cake
+Grid        ( 9, 8) (11,12) 0,0 Consumable Cake
+Grid        (15, 8) (17,12) 0,0 Consumable Cake
+Grid        (19, 8) (21,12) 0,0 Consumable Cake
+Line        ( 6, 7) (10, 7)     Consumable Cake
+Line        ( 7, 6) ( 9, 6)     Consumable Cake
+Line        (16, 7) (20, 7)     Consumable Cake
+Line        (17, 6) (19, 6)     Consumable Cake
+Line        (13, 6) (13,12)     Blocking   Skull.1 Skull.2
+Line        (23, 6) (23,12)     Consumable Coke
+------------------------------------------------------------Level-9
+Rectangular ( 0, 0) (25,17)     Blocking   Wall
+Line        ( 6, 8) (16, 8)     Blocking   Wall
+Line        ( 6, 3) ( 6, 7)     Blocking   Wall
+Line        (11, 1) (11, 7)     Blocking   Wall
+Point       (11, 9)             Door       Door
+Point       ( 9, 6)             Key        Key.1 Key.2
+Line        (11,10) (11,16)     Blocking   Wall
+Line        (12,10) (14,10)     Blocking   Wall
+Line        (16, 9) (16,14)     Blocking   Wall
+Line        (13,14) (15,14)     Blocking   Wall
+Line        (17, 8) (24, 8)     Consumable Wine
+Line        (17,14) (24,14)     Consumable Wine
+Grid        ( 2, 3) ( 2, 7) 1,1 Consumable Meat
+Point       (12,11)             Consumable Meat
+Point       (15,11)             Consumable Meat
+Point       (15, 9)             Consumable Meat
+Point       ( 6,14)             Blocking   Poison.1 Poison.2
+Line        ( 4,14) ( 6,16)     Consumable Wine
+Line        ( 6,12) ( 8,14)     Consumable Wine
+Point       ( 5,13)             Consumable Wine
+Point       ( 7,15)             Consumable Wine
+Line        (16, 1) (22, 1)     Blocking   Poison.1 Poison.2
+Line        (17, 2) (21, 2)     Blocking   Poison.1 Poison.2
+Line        (18, 3) (20, 3)     Blocking   Poison.1 Poison.2
+Point       (19, 4)             Blocking   Poison.1 Poison.2
+------------------------------------------------------------Level-9
+Rectangular ( 0, 0) (25,17)     Blocking   Wall
+Grid        ( 4, 1) ( 6,16) 0,0 Consumable Cake
+Grid        ( 1,10) ( 3,16) 0,0 Consumable Cake
+Grid        ( 1, 1) ( 3, 8) 0,0 Consumable Cake
+Grid        ( 7, 1) ( 9,16) 0,0 Consumable Meat
+Grid        (10, 1) (12,16) 0,0 Consumable Beer
+Grid        (13, 1) (16,16) 0,0 Consumable Coke
+Grid        (17, 1) (19,16) 0,0 Consumable Burger
+Line        (21, 2) (21,15)     Blocking   Wall

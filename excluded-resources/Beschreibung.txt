@@ -1,0 +1,48 @@
+                         ??????????????????????
+                         ?       V I V I       ?
+                         ?    VICIOUS VIPER    ?
+                         ??????????????????????
+
+ist ein Geschicklichkeitsspiel, bei dem es darauf ankommt, eine
+s e h r gefr??ige Schlange heil von Level zu Level zu steuern. Die
+Schwierigkeit besteht darin, da? die Schlange mit jedem St?ck Futter
+w?chst; wenn sie an ein Hindernis st??t oder Ungenie?bares fri?t, ver-
+liert VIVI ein Leben. Gl?cklicherweise hat sie mehrere davon.
+
+Was e?- oder trinkbar, was giftig oder Hindernis ist, ist leicht her-
+auszufinden. Soviel sei jedoch verraten: nachdem sie einen magischen
+Stein gefressen hat, kann VIVI ein Tor ?ffnen...
+
+Ein Level ist geschafft, wenn alles E?bare aufgefressen wurde; daf?r
+gibt es Punkte, f?r besonders ?konomisches Fressen gibt's am Ende je-
+des Levels Bonuspunkte. Die 20 besten Ergebnisse werden gespeichert.
+
+Spielstart mit: VIVI (RETURN)
+
+VIVI l?uft nur auf EGA- & VGA-Grafikkarten
+
+
+Steuerung des Spiels:
+
+Beenden der High-Score-Anzeige:               jede beliebige Taste
+
+VIVI in Bewegung setzen:                      SPACE- (Leer)-Taste
+
+VIVI's Richtung ?ndern:                       CURSOR-Tasten
+
+Spiel anhalten (PAUSE):                       P
+
+Sound aus bzw. an:                            S
+
+Spiel abbrechen:                              ESC-Taste
+
+Sie k?nnen das Spieltempo jederzeit durch Dr?cken der Tasten 1 - 9 an
+die Geschwindigkeit Ihres PC anpassen (1 = langsam, 9 = schnell).
+
+Im Spiel sind 50 Levels enthalten, die ver?ndert werden k?nnen; wie,
+das verr?t Ihnen VIVI selbst, wenn Sie alle 50 Levels geschafft ha-
+ben...
+
+
+Viel Spa? mit VIVI, der "b?sartigen" Viper!
+

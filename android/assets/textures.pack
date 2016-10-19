@@ -1,0 +1,348 @@
+
+textures.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+controls_relative
+  rotate: false
+  xy: 1, 107
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+controls_touchareas
+  rotate: false
+  xy: 1, 73
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+controls_touchpad
+  rotate: false
+  xy: 35, 107
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+flag_germany
+  rotate: false
+  xy: 1, 39
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+flag_usa
+  rotate: false
+  xy: 35, 73
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+Info
+  rotate: false
+  xy: 69, 107
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+music.off
+  rotate: false
+  xy: 1, 5
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+music.on
+  rotate: false
+  xy: 35, 39
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+settings
+  rotate: false
+  xy: 69, 73
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+sound.off
+  rotate: false
+  xy: 103, 107
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+sound.on
+  rotate: false
+  xy: 35, 5
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+Title.Green
+  rotate: false
+  xy: 137, 126
+  size: 34, 13
+  orig: 34, 13
+  offset: 0, 0
+  index: -1
+Beer
+  rotate: false
+  xy: 69, 53
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Body.Blue
+  rotate: false
+  xy: 103, 87
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Body.Green
+  rotate: false
+  xy: 69, 33
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Body.Purple
+  rotate: false
+  xy: 69, 13
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Burger
+  rotate: false
+  xy: 137, 106
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Cake
+  rotate: false
+  xy: 173, 121
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Coke
+  rotate: false
+  xy: 199, 121
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Door
+  rotate: false
+  xy: 225, 121
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Head.X.1.Blue
+  rotate: false
+  xy: 103, 67
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Head.X.1.Green
+  rotate: false
+  xy: 129, 86
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Head.X.1.Purple
+  rotate: false
+  xy: 129, 66
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Head.X.2.Blue
+  rotate: false
+  xy: 95, 47
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Head.X.2.Green
+  rotate: false
+  xy: 95, 27
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Head.X.2.Purple
+  rotate: false
+  xy: 95, 7
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Head.Y.1.Blue
+  rotate: false
+  xy: 121, 46
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Head.Y.1.Green
+  rotate: false
+  xy: 121, 26
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Head.Y.1.Purple
+  rotate: false
+  xy: 121, 6
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Head.Y.2.Blue
+  rotate: false
+  xy: 163, 101
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Head.Y.2.Green
+  rotate: false
+  xy: 189, 101
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Head.Y.2.Purple
+  rotate: false
+  xy: 215, 101
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Key.1
+  rotate: false
+  xy: 155, 81
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Key.2
+  rotate: false
+  xy: 181, 81
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Meat
+  rotate: false
+  xy: 207, 81
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Poison.1
+  rotate: false
+  xy: 155, 61
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Poison.2
+  rotate: false
+  xy: 181, 61
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Skull.1
+  rotate: false
+  xy: 207, 61
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Skull.2
+  rotate: false
+  xy: 147, 41
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Tail.X.Blue
+  rotate: false
+  xy: 147, 21
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Tail.X.Green
+  rotate: false
+  xy: 173, 41
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Tail.X.Purple
+  rotate: false
+  xy: 173, 21
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Tail.Y.Blue
+  rotate: false
+  xy: 199, 41
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Tail.Y.Green
+  rotate: false
+  xy: 199, 21
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Tail.Y.Purple
+  rotate: false
+  xy: 147, 1
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Wall
+  rotate: false
+  xy: 173, 1
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+Wine
+  rotate: false
+  xy: 199, 1
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+particle
+  rotate: false
+  xy: 69, 1
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+fade
+  rotate: false
+  xy: 95, 70
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
