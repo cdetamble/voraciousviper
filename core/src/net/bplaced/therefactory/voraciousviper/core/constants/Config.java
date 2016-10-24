@@ -12,7 +12,7 @@ public class Config {
      *  - level can be changed at will
      * Important: set to false in release versions
      */
-    public static final boolean DEBUG_MODE = true;
+    public static final boolean DEBUG_MODE = false;
 
     // if set to true the google play store badge will be displayed in the main menu
     public static final boolean SHOW_BADGE = false;
