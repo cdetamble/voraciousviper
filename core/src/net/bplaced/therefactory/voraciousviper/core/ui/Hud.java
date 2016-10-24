@@ -71,7 +71,7 @@ public class Hud extends Stage {
 		font.draw(batch, stringBuilder.append(Utils.padLeft(level.getViper().getScore(), 4)), scoreX +95, hudPositionY);
 		stringBuilder.setLength(0);
 		
-		font.draw(batch, stringBuilder.append(Utils.padLeft(level.getCurrentLevel() + 1, 2)), scoreX, hudPositionY);
+		font.draw(batch, stringBuilder.append(Utils.padLeft(level.getIndexCurrentLevel() + 1, 2)), scoreX, hudPositionY);
 		stringBuilder.setLength(0);
 	}
 

@@ -2,10 +2,9 @@ package net.bplaced.therefactory.voraciousviper.core.misc;
 
 public class Scaler {
 
-	
+	private boolean scaleDown;
 	private float scaler;
 	private float step;
-	private boolean scaleDown;
 	private float min;
 	private float max;
 

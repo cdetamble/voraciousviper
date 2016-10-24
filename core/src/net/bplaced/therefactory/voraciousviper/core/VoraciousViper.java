@@ -95,13 +95,13 @@ public class VoraciousViper extends Game {
 	public String getVersionName() {
 		if (androidInterface != null && androidInterface.getVersionName() != null)
 			return androidInterface.getVersionName();
-		return Config.VERSION_NAME;
+		return Config.GAME_VERSION_NAME;
 	}
 	
 	public int getVersionCode() {
 		if (androidInterface != null)
 			return androidInterface.getVersionCode();
-		return Config.VERSION_CODE;
+		return Config.GAME_VERSION_CODE;
 	}
 
 	private I18NBundle getBundle(String locale) {

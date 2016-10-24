@@ -58,11 +58,11 @@ public class ScoreTableInputProcessor extends InputAdapter {
 			deltaY = (touchStartY - touchCoordinates.y) + lastDeltaY;
             deltaY = Math.max(deltaY,
             		titleScreen.getScoreEntries() == null ? 0 :
-        			-Config.HIGHSCORES_LINE_HEIGHT * (titleScreen.getNumScoreEntries())); // stop scrolling if only last line is visible
+        			-Config.LINE_HEIGHT_HIGHSCORES * (titleScreen.getNumScoreEntries())); // stop scrolling if only last line is visible
             
 //            if (!scrollbarHandleDragging) {
             	deltaY = -deltaY; // invert vertical scrolling direction
-            	titleScreen.setScrollbarPositionY((bottomY - topY) / (Config.HIGHSCORES_LINE_HEIGHT * (titleScreen.getNumScoreEntries())) * deltaY + topY);
+            	titleScreen.setScrollbarPositionY((bottomY - topY) / (Config.LINE_HEIGHT_HIGHSCORES * (titleScreen.getNumScoreEntries())) * deltaY + topY);
 //            }
 
             return true;

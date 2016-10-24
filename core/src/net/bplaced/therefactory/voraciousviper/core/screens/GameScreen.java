@@ -51,7 +51,7 @@ public class GameScreen extends ScreenAdapter {
     private final Stage stage;
     private final Level level;
     private final Particles particles;
-    private GameState gameState;
+    private GameState currentGameState;
     private GameState previousGameState;
 
 	private BitmapFont font;
@@ -94,7 +94,7 @@ public class GameScreen extends ScreenAdapter {
         hud.setLevel(level);
         this.viewport = viewport;
         this.camera = camera;
-        gameState = GameState.LevelTransition;
+        currentGameState = GameState.LevelTransition;
         particles = new Particles(textureAtlas);
 
         rectangleMenuDialog = new Rectangle();
@@ -208,10 +208,10 @@ public class GameScreen extends ScreenAdapter {
 
         if (numFrames >= numFramesPerTick) {
             numFrames = 0;
-            level.tick(gameState);
+            level.tick(currentGameState);
         }
 
-        if (gameState.equals(GameState.ShowPauseMenuDialog)) {
+        if (currentGameState.equals(GameState.ShowPauseMenuDialog)) {
         	stage.act();
         }
 
@@ -223,10 +223,10 @@ public class GameScreen extends ScreenAdapter {
     private void updateDialog(GameState state, RetroBundleTextButton[] buttons) {
         int width = 30;
         for (RetroBundleTextButton button : buttons) {
-            button.setVisible(gameState.equals(state));
+            button.setVisible(currentGameState.equals(state));
             width += button.getWidth() + 10;
         }
-        if (gameState.equals(state)) {
+        if (currentGameState.equals(state)) {
             rectangleMenuDialog.setWidth(width);
             rectangleMenuDialog.setPosition(viewport.getWorldWidth()/2-rectangleMenuDialog.getWidth()/2, 100);
             positionButtons(buttons);
@@ -256,7 +256,7 @@ public class GameScreen extends ScreenAdapter {
         hud.render(batch);
 
         // fade background if dialog is shown
-        if (gameState.equals(GameState.ShowPauseMenuDialog) || gameState.equals(GameState.ShowGameOverDialog) || gameState.equals(GameState.ShowContinueDialog)) {
+        if (currentGameState.equals(GameState.ShowPauseMenuDialog) || currentGameState.equals(GameState.ShowGameOverDialog) || currentGameState.equals(GameState.ShowContinueDialog)) {
         	VoraciousViper.getInstance().getFadeSprite().setAlpha(.5f);
         	VoraciousViper.getInstance().getFadeSprite().draw(batch);
         }
@@ -270,7 +270,7 @@ public class GameScreen extends ScreenAdapter {
         batch.end();
         
         // render dialog box
-        if (gameState.equals(GameState.ShowPauseMenuDialog) || gameState.equals(GameState.ShowGameOverDialog) || gameState.equals(GameState.ShowContinueDialog)) {
+        if (currentGameState.equals(GameState.ShowPauseMenuDialog) || currentGameState.equals(GameState.ShowGameOverDialog) || currentGameState.equals(GameState.ShowContinueDialog)) {
             shapeRenderer.begin(ShapeType.Filled);
             
             shapeRenderer.setColor(Color.WHITE);
@@ -291,8 +291,8 @@ public class GameScreen extends ScreenAdapter {
             font.setColor(Color.BLACK);
 
             String phrase;
-            if (gameState.equals(GameState.ShowPauseMenuDialog)) phrase = VoraciousViper.getInstance().getBundle().get(I18NKeys.GivinUpAlready);
-            else if (gameState.equals(GameState.ShowContinueDialog)) phrase = VoraciousViper.getInstance().getBundle().get(I18NKeys.ContinueText);
+            if (currentGameState.equals(GameState.ShowPauseMenuDialog)) phrase = VoraciousViper.getInstance().getBundle().get(I18NKeys.GivinUpAlready);
+            else if (currentGameState.equals(GameState.ShowContinueDialog)) phrase = VoraciousViper.getInstance().getBundle().get(I18NKeys.ContinueText);
             else if (hasImprovedHighscore) phrase = VoraciousViper.getInstance().getBundle().get(I18NKeys.HighscoreImprovedText);
             else phrase = VoraciousViper.getInstance().getBundle().get(I18NKeys.GameOverText);
             font.draw(batch, phrase,
@@ -307,7 +307,7 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void show() {
     	super.show();
-		if (gameState.equals(GameState.LevelTransition)) { // restart because the level transition may be unfinished (player left game while level was transitioning)
+		if (currentGameState.equals(GameState.LevelTransition)) { // restart because the level transition may be unfinished (player left game while level was transitioning)
 			level.restartLevelTransition();
 		}
     	hud.show();
@@ -352,7 +352,7 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void pause() {
     	super.pause();
-    	if (gameState == GameState.GameIsRunning)
+    	if (currentGameState == GameState.GameIsRunning)
     		setState(GameState.GameIsBeginning);
     }
 
@@ -363,7 +363,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void setState(GameState gameState) {
-        this.gameState = gameState;
+        this.currentGameState = gameState;
         if (!level.hadFirstLevelTransition() && gameState == GameState.LevelTransition) {
         	inputMultiplexer.getProcessors().removeValue(stage, true);
         } else if (!inputMultiplexer.getProcessors().contains(stage, false)) {
@@ -375,7 +375,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public GameState getState() {
-        return gameState;
+        return currentGameState;
     }
 
 	public Viper getViper() {

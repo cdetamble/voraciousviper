@@ -31,4 +31,5 @@ public class I18NKeys {
     public static final String ContinueText = "continue_text";
 	public static final String Updating = "updating";
 	public static final String GameOverText = "game_over_text";
+
 }

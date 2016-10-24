@@ -16,7 +16,7 @@ public interface IAndroidInterface {
     /**
      * Tries to return the version name set by the build.gradle.
      * 
-     * If that fails the VERSION_NAME is returned.
+     * If that fails the GAME_VERSION_NAME is returned.
      * @return
      */
     String getVersionName();
@@ -24,7 +24,7 @@ public interface IAndroidInterface {
     /**
      * Tries to return the version code set by the build.gradle.
      * 
-     * If that fails the VERSION_CODE is returned.
+     * If that fails the GAME_VERSION_CODE is returned.
      * @return
      */
 	int getVersionCode();

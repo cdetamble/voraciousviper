@@ -31,7 +31,7 @@ public class Viper {
 	private TileFlipable tail;
 	private final Array<Tile> body;
 
-	private int numLives = Config.INITIAL_NUM_LIVES;
+	private int numLives = Config.NUM_LIVES_INITIAL;
 	private int score;
 	private int numSteps;
 	private final GridPoint2 movementVector;
@@ -42,7 +42,7 @@ public class Viper {
 	private boolean hasCrashed;
 	private boolean hasKey;
 
-    public enum MovementDirection {
+	public enum MovementDirection {
 		Horizontal, Vertical
 	}
 
@@ -139,7 +139,7 @@ public class Viper {
 		setHasCrashed(false);
 		score = 0;
 		numSteps = 0;
-		numLives = Config.INITIAL_NUM_LIVES;
+		numLives = Config.NUM_LIVES_INITIAL;
 	}
 
 	public void update() {
@@ -158,7 +158,7 @@ public class Viper {
 					if (level.getTileAt(nextHeadPosition).getType().equals(TileType.Key)) {
 						setHasKey(true);
 					}
-					incrementScoreBy(level.getCurrentLevel() + 1);
+					incrementScoreBy(level.getIndexCurrentLevel() + 1);
 					level.incrementNumConsumedTiles();
 					if (level.getTileAt(nextHeadPosition).getType().equals(TileType.Key))
 						VoraciousViper.getInstance().playSound("audio/sounds/win.ogg");
@@ -177,7 +177,7 @@ public class Viper {
 					if (hasKey()) {
 						setHasKey(false);
 						VoraciousViper.getInstance().playSound("audio/sounds/win.ogg");
-						incrementScoreBy(level.getCurrentLevel());
+						incrementScoreBy(level.getIndexCurrentLevel());
 						grow();
 						tickMove(true);
 					} else {

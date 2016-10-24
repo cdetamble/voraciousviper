@@ -19,12 +19,12 @@ public class Config {
 
     // app
 	public static final String GAME_TITLE = "VoVi: Voracious Viper";
-    public static final String VERSION_NAME = "1.0.0";
-    public static final int VERSION_CODE = 4;
+    public static final String GAME_VERSION_NAME = "1.0.1";
+    public static final int GAME_VERSION_CODE = 4;
 
     // game play
     public static final int NUM_FRAMES_FOR_TICK = 8;
-    public static final int INITIAL_NUM_LIVES = 5;
+    public static final int NUM_LIVES_INITIAL = 5;
     
     // game screen
     public static final int WINDOW_WIDTH = 624;
@@ -41,7 +41,7 @@ public class Config {
 	public static final int NUM_FRAMES_DURING_LEVEL_TRANSITION = NUM_FRAMES_FOR_TICK / 4;
 	
 	// other
-	public static final int PLAYERNAME_MAXLEN = 20;
-	public static final int HIGHSCORES_LINE_HEIGHT = 11;
+	public static final int MAX_LENGTH_PLAYERNAME = 20;
+	public static final int LINE_HEIGHT_HIGHSCORES = 11;
 
 }

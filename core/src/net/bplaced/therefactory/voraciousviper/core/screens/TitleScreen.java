@@ -1,7 +1,5 @@
 package net.bplaced.therefactory.voraciousviper.core.screens;
 
-import java.util.Locale;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Preferences;
@@ -43,6 +41,8 @@ import net.bplaced.therefactory.voraciousviper.core.misc.SettingsManager;
 import net.bplaced.therefactory.voraciousviper.core.misc.Utils;
 import net.bplaced.therefactory.voraciousviper.core.net.HttpServer;
 
+import java.util.Locale;
+
 public class TitleScreen extends ScreenAdapter {
 
     private TitleScreenState state;
@@ -55,7 +55,7 @@ public class TitleScreen extends ScreenAdapter {
 	private final OrthographicCamera camera;
 	private final ShapeRenderer shapeRenderer;
 
-	private final RetroTextButton buttonAbout;
+	private final RetroTextButton buttonSwitchBetweenAboutAndSettings;
 	private final RetroTextButton buttonClose;
 	private final AbstractRetroButton[][] buttonsSettings;
 	private final RetroBundleTextButton[] buttonsMainMenu;
@@ -100,7 +100,7 @@ public class TitleScreen extends ScreenAdapter {
 	private final float xOffsetMax;
 	private final int paddingFromViewport;
 	private int vSpaceBetweenButtons;
-	private int indexCurrentHead;
+	private int indexCurrentHeadSprite;
 
 	public TitleScreen(ShapeRenderer shapeRenderer, final FitViewport viewport,
                        OrthographicCamera camera, AssetManager assetManager, TextureAtlas textureAtlas, BitmapFont font) {
@@ -136,7 +136,7 @@ public class TitleScreen extends ScreenAdapter {
 		spriteThere = new Sprite(new Texture("there.png"));
 		spriteFactory = new Sprite(new Texture("factory.png"));
 		
-		indexCurrentHead = 0;
+		indexCurrentHeadSprite = 0;
 		spritesViperHeads = new Sprite[6];
 		spritesViperHeads[0] = textureAtlas.createSprite("Head.X.1.Green");
 		spritesViperHeads[1] = textureAtlas.createSprite("Head.X.2.Green");
@@ -164,7 +164,7 @@ public class TitleScreen extends ScreenAdapter {
 		stage.addActor(buttonClose);
 
 		// button to show about screen
-		buttonAbout = new RetroTextButton(shapeRenderer, 52, 52, font, "?", new ClickListener() {
+		buttonSwitchBetweenAboutAndSettings = new RetroTextButton(shapeRenderer, 52, 52, font, "?", new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
@@ -175,8 +175,8 @@ public class TitleScreen extends ScreenAdapter {
 				}
 			}
 		});
-		buttonAbout.setPosition(buttonClose.getX() - buttonAbout.getWidth() - hSpaceBetweenButtons, buttonClose.getY());
-		stage.addActor(buttonAbout);
+		buttonSwitchBetweenAboutAndSettings.setPosition(buttonClose.getX() - buttonSwitchBetweenAboutAndSettings.getWidth() - hSpaceBetweenButtons, buttonClose.getY());
+		stage.addActor(buttonSwitchBetweenAboutAndSettings);
 
 		// initialize buttons for main menu
 		int buttonSize = 130;
@@ -199,7 +199,6 @@ public class TitleScreen extends ScreenAdapter {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					super.clicked(event, x, y);
-					synchronizeCheckedStatesOfSettingsButtons();
 					setState(TitleScreenState.ShowSettings);
 				}
 			}),
@@ -347,6 +346,9 @@ public class TitleScreen extends ScreenAdapter {
 
 	private void setState(TitleScreenState state) {
 		this.state = state;
+        if (state.equals(TitleScreenState.ShowSettings)) {
+            synchronizeCheckedStatesOfSettingsButtons();
+        }
 	}
 	
 	private void update(float delta) {
@@ -376,7 +378,7 @@ public class TitleScreen extends ScreenAdapter {
 		colorScaler.set(red, green, blue, 1f);
 		
 		buttonClose.setVisible(!state.equals(TitleScreenState.ShowMainMenu));
-		buttonAbout.setVisible(!state.equals(TitleScreenState.ShowMainMenu) && !state.equals(TitleScreenState.ShowScoreTable));
+		buttonSwitchBetweenAboutAndSettings.setVisible(!state.equals(TitleScreenState.ShowMainMenu) && !state.equals(TitleScreenState.ShowScoreTable));
 
 		// buttons in main menu
 		int hSpace = 15;
@@ -434,16 +436,16 @@ public class TitleScreen extends ScreenAdapter {
 		scrollbarHandle.setVisible(state.equals(TitleScreenState.ShowScoreTable) && !fetching && scoreEntries != null);
 	
 		 // animate the viper head that represents the dot on the 'i' of Vorac_i_ous in the title image
-		if (indexCurrentHead % 2 == 0 && System.currentTimeMillis() % 1000 < 500) {
-			indexCurrentHead++;
-		} else if (indexCurrentHead % 2 == 1 && System.currentTimeMillis() % 1000 > 500) {
-			indexCurrentHead--;
+		if (indexCurrentHeadSprite % 2 == 0 && System.currentTimeMillis() % 1000 < 500) {
+			indexCurrentHeadSprite++;
+		} else if (indexCurrentHeadSprite % 2 == 1 && System.currentTimeMillis() % 1000 > 500) {
+			indexCurrentHeadSprite--;
 		}
 		if (Gdx.input.justTouched()) {
 			Vector2 touchCoordinates = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
 			if (Utils.within(touchCoordinates, spritesViperHeads[0])) {
 				VoraciousViper.getInstance().playSound("audio/sounds/lose.ogg");
-				indexCurrentHead = (indexCurrentHead + ((indexCurrentHead % 2 == 0) ? 2 : 1)) % (spritesViperHeads.length);
+				indexCurrentHeadSprite = (indexCurrentHeadSprite + ((indexCurrentHeadSprite % 2 == 0) ? 2 : 1)) % (spritesViperHeads.length);
 			}
 		}
 	}
@@ -478,12 +480,12 @@ public class TitleScreen extends ScreenAdapter {
 			
 			spriteThere.setAlpha(1 - xOffset/xOffsetMax);
 			spriteThere.setScale(.4f);
-			spriteThere.setPosition(xOffsetAboutText+81, 112);
+			spriteThere.setPosition(xOffsetAboutText+81, 105);
 			spriteThere.draw(stage.getBatch());
 			
 			spriteFactory.setAlpha(1 - xOffset/xOffsetMax);
 			spriteFactory.setScale(.4f);
-			spriteFactory.setPosition(xOffsetAboutText+125, 112);
+			spriteFactory.setPosition(xOffsetAboutText+125, spriteThere.getY());
 			spriteFactory.draw(stage.getBatch());
 		}
 		
@@ -524,7 +526,7 @@ public class TitleScreen extends ScreenAdapter {
         }
         
 		spriteTitle.draw(stage.getBatch());
-		spritesViperHeads[indexCurrentHead].draw(stage.getBatch()); // dot on the 'i' of Vorac_i_ous in the title image
+		spritesViperHeads[indexCurrentHeadSprite].draw(stage.getBatch()); // dot on the 'i' of Vorac_i_ous in the title image
 		
 		if (updating) {
 			VoraciousViper.getInstance().getFadeSprite().setBounds(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
@@ -597,7 +599,7 @@ public class TitleScreen extends ScreenAdapter {
 				}
 				font.setColor(scoreEntries[i].getId().equals(SettingsManager.getInstance().getPlayerId()) ?
 						new Color(0, 1, 0, fetching ? .5f : 1) : new Color(1, 1, 1, fetching ? .5f : 1));
-				float y = (scrollbarMaximumY - i * Config.HIGHSCORES_LINE_HEIGHT + inputHandler.getDeltaY());
+				float y = (scrollbarMaximumY - i * Config.LINE_HEIGHT_HIGHSCORES + inputHandler.getDeltaY());
 				if (y <= scrollbarMaximumY) { // lines disappear when having y above topY
 
 					// name

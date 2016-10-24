@@ -1,12 +1,5 @@
 package net.bplaced.therefactory.voraciousviper.core.model;
 
-import static net.bplaced.therefactory.voraciousviper.core.screens.GameScreen.GameState.GameIsBeginning;
-import static net.bplaced.therefactory.voraciousviper.core.screens.GameScreen.GameState.LevelFinished;
-import static net.bplaced.therefactory.voraciousviper.core.screens.GameScreen.GameState.LevelTransition;
-import static net.bplaced.therefactory.voraciousviper.core.screens.GameScreen.GameState.ShowContinueDialog;
-import static net.bplaced.therefactory.voraciousviper.core.screens.GameScreen.GameState.ShowGameOverDialog;
-import static net.bplaced.therefactory.voraciousviper.core.screens.GameScreen.GameState.ViperCrashed;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -22,6 +15,13 @@ import net.bplaced.therefactory.voraciousviper.core.model.Viper.SpriteColor;
 import net.bplaced.therefactory.voraciousviper.core.net.HttpServer;
 import net.bplaced.therefactory.voraciousviper.core.screens.GameScreen;
 
+import static net.bplaced.therefactory.voraciousviper.core.screens.GameScreen.GameState.GameIsBeginning;
+import static net.bplaced.therefactory.voraciousviper.core.screens.GameScreen.GameState.LevelFinished;
+import static net.bplaced.therefactory.voraciousviper.core.screens.GameScreen.GameState.LevelTransition;
+import static net.bplaced.therefactory.voraciousviper.core.screens.GameScreen.GameState.ShowContinueDialog;
+import static net.bplaced.therefactory.voraciousviper.core.screens.GameScreen.GameState.ShowGameOverDialog;
+import static net.bplaced.therefactory.voraciousviper.core.screens.GameScreen.GameState.ViperCrashed;
+
 /**
  * Created by Christian on 17.09.2016.
  */
@@ -29,15 +29,15 @@ public class Level {
 
     // temporary variables
 	private int numTicks;
-	private int currentColumn;
+	private int indexCurrentColumn;
 	
 	private final Tile[][] tiles; // holds all level tiles including the viper
-    private final Tile[][][] tilesDefault; // for reseting the level to its default state
+    private final Tile[][][] tilesDefault; // for resetting the level to its default state
 	private final Array<TileAnimated> tilesAnimated; // for fast looping over animated tiles excluding the viper
-	private int currentLevel;
+	private int indexCurrentLevel;
     private final Viper viper;
 	private final GameScreen gameScreen;
-    private boolean animationTick;
+    private boolean animateInThisTick;
     private int numConsumableTiles;
     private int numConsumedTiles;
 	private boolean hadFirstLevelTransition;
@@ -52,7 +52,7 @@ public class Level {
         tilesDefault = new Tile[numLevels][Config.NUM_TILES_ROW][Config.NUM_TILES_COLUMN];
         tilesAnimated = new Array<TileAnimated>();
         viper = new Viper(this, textureAtlas);
-        currentLevel = 0;
+        indexCurrentLevel = 0;
         numConsumedTiles = 0;
         numConsumableTiles = 0;
     }
@@ -196,8 +196,8 @@ public class Level {
         return viper;
     }
     
-	public int getCurrentLevel() {
-		return currentLevel;
+	public int getIndexCurrentLevel() {
+		return indexCurrentLevel;
 	}
 
 	void setTile(Tile tile, GridPoint2 position) {
@@ -242,7 +242,7 @@ public class Level {
         switch (gameState) {
         
             case GameIsRunning:
-            	viper.tick(true, animationTick);
+            	viper.tick(true, animateInThisTick);
                 if (viper.hasCrashed()) {
                 	VoraciousViper.getInstance().playSound("audio/sounds/lose.ogg");
                     gameScreen.setState(viper.getNumLives() > 2 && numConsumedTiles > 0 ? ShowContinueDialog : ViperCrashed);
@@ -254,27 +254,27 @@ public class Level {
                         gameScreen.setState(LevelFinished);
                     } else {
                         animateTiles();
-                        animationTick = !animationTick;
+                        animateInThisTick = !animateInThisTick;
                     }
                 }
                 break;
                 
 			case GameIsBeginning:
-				viper.tick(false, animationTick);
+				viper.tick(false, animateInThisTick);
 				animateTiles();
-		        animationTick = !animationTick;
+		        animateInThisTick = !animateInThisTick;
 				break;
 				
 			case LevelTransition:
 				renderColumnOfLevel();
-				if (currentColumn >= Config.NUM_TILES_ROW) { // animation is done
+				if (indexCurrentColumn >= Config.NUM_TILES_ROW) { // animation is done
 					setHadFirstLevelTransition(true);
 					if (viper.hasCrashed()) {
 						viper.setHasCrashed(false);
 						viper.decrementLives();
 					}
 					viper.restart(true);
-					currentColumn = 0;
+					indexCurrentColumn = 0;
                     numConsumedTiles = 0;
 					gameScreen.setState(GameIsBeginning);
 					gameScreen.setNumFramesPerTick(Config.NUM_FRAMES_FOR_TICK);
@@ -306,7 +306,7 @@ public class Level {
                                         HttpServer.submitHighscore(SettingsManager.getInstance().getPlayerId(),
                                                 SettingsManager.getInstance().getPlayerName(),
                                                 viper.getNumSteps(),
-                                                currentLevel + 1,
+                                                indexCurrentLevel + 1,
                                                 viper.getScore(),
                                                 VoraciousViper.getInstance().getVersionCode(),
                                                 true);
@@ -335,23 +335,23 @@ public class Level {
     }
 
     private void renderColumnOfLevel() {
-    	for (int y = 0; currentColumn < tiles.length && y < Config.NUM_TILES_COLUMN; y++) {
-			tiles[currentColumn][y] = tilesDefault[currentLevel][currentColumn][y];
-			if (tiles[currentColumn][y] instanceof TileAnimated) {
-        		tilesAnimated.add((TileAnimated)tiles[currentColumn][y]);
+    	for (int y = 0; indexCurrentColumn < tiles.length && y < Config.NUM_TILES_COLUMN; y++) {
+			tiles[indexCurrentColumn][y] = tilesDefault[indexCurrentLevel][indexCurrentColumn][y];
+			if (tiles[indexCurrentColumn][y] instanceof TileAnimated) {
+        		tilesAnimated.add((TileAnimated)tiles[indexCurrentColumn][y]);
         	}
-            if (tiles[currentColumn][y] != null
-            		&& (tiles[currentColumn][y].getType() == TileType.Consumable
-            			|| tiles[currentColumn][y].getType() == TileType.Key)) {
+            if (tiles[indexCurrentColumn][y] != null
+            		&& (tiles[indexCurrentColumn][y].getType() == TileType.Consumable
+            			|| tiles[indexCurrentColumn][y].getType() == TileType.Key)) {
                 numConsumableTiles++;
             }
 		}
-    	currentColumn++;
+    	indexCurrentColumn++;
 	}
 
 	private void animateTiles() {
         for (TileAnimated tileAnimated : tilesAnimated) {
-        	tileAnimated.animate(animationTick);
+        	tileAnimated.animate(animateInThisTick);
         }
 	}
 
@@ -374,11 +374,11 @@ public class Level {
 	}
 
 	public void decrementCurrentLevel() {
-		currentLevel = Math.max(0, currentLevel - 1);
+		indexCurrentLevel = Math.max(0, indexCurrentLevel - 1);
 	}
 
 	public void incrementCurrentLevel() {
-		currentLevel = (currentLevel + 1) % (tilesDefault.length);
+		indexCurrentLevel = (indexCurrentLevel + 1) % (tilesDefault.length);
         viper.incrementLives();
 	}
 
@@ -386,7 +386,7 @@ public class Level {
 		gameScreen.setHasImprovedHighscore(false);
 		clearTiles();
 		hadFirstLevelTransition = false;
-		currentLevel = 0;
+		indexCurrentLevel = 0;
 		numConsumableTiles = 0;
 		viper.reset();
 		gameScreen.setState(LevelTransition);
@@ -394,14 +394,14 @@ public class Level {
 
 	public void finishLevelTransition() {
 		gameScreen.setNumFramesPerTick(1);
-		for (int i = currentColumn; i < Config.NUM_TILES_ROW; i++) {
+		for (int i = indexCurrentColumn; i < Config.NUM_TILES_ROW; i++) {
 			renderColumnOfLevel();
 		}
 		gameScreen.setNumFramesPerTick(Config.NUM_FRAMES_FOR_TICK);
 	}
 
 	public void restartLevelTransition() {
-		currentColumn = 0;
+		indexCurrentColumn = 0;
 	}
 	
 }

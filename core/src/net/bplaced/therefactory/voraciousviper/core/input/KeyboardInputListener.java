@@ -19,11 +19,11 @@ public class KeyboardInputListener implements TextInputListener {
 	
     @Override
     public void input(String text) {
-        if (text.length() <= Config.PLAYERNAME_MAXLEN) {
+        if (text.length() <= Config.MAX_LENGTH_PLAYERNAME) {
     		HttpServer.changeName(titleScreen, SettingsManager.getInstance().getPlayerId(),
     				text, VoraciousViper.getInstance().getVersionCode(), false);
         } else {
-			VoraciousViper.getInstance().toast(VoraciousViper.getInstance().getBundle().format(I18NKeys.NameMustBeShorterThan, Config.PLAYERNAME_MAXLEN + 1), true);
+			VoraciousViper.getInstance().toast(VoraciousViper.getInstance().getBundle().format(I18NKeys.NameMustBeShorterThan, Config.MAX_LENGTH_PLAYERNAME + 1), true);
         }
     }
 

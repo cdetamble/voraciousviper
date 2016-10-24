@@ -49,7 +49,7 @@ public class AndroidLauncher extends AndroidApplication implements IAndroidInter
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        return Config.VERSION_NAME;
+        return Config.GAME_VERSION_NAME;
     }
 
 	@Override
@@ -59,7 +59,7 @@ public class AndroidLauncher extends AndroidApplication implements IAndroidInter
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        return Config.VERSION_CODE;
+        return Config.GAME_VERSION_CODE;
 	}
     
 }
