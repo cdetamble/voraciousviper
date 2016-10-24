@@ -348,6 +348,10 @@ public class Viper {
 		numLives--;
 	}
 
+	void incrementLives() {
+        numLives = Math.min(Config.NUM_LIVES_INITIAL, numLives + 1);
+	}
+
 	public Sprite getHeadX2() {
 		return sprites[color][SpriteId.Head_X_2.ordinal()];
 	}

@@ -379,6 +379,7 @@ public class Level {
 
 	public void incrementCurrentLevel() {
 		currentLevel = (currentLevel + 1) % (tilesDefault.length);
+        viper.incrementLives();
 	}
 
 	public void reset() {
