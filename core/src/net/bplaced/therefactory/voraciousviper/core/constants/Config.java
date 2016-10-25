@@ -20,7 +20,7 @@ public class Config {
     // app
 	public static final String GAME_TITLE = "VoVi: Voracious Viper";
     public static final String GAME_VERSION_NAME = "1.0.1";
-    public static final int GAME_VERSION_CODE = 4;
+    public static final int GAME_VERSION_CODE = 5;
 
     // game play
     public static final int NUM_FRAMES_FOR_TICK = 8;
