@@ -6,7 +6,7 @@ You can follow my <a href="https://goo.gl/U0x1Fy">development blog</a> for the l
 
 ***
 
-**DOWNLOAD THE APP**
+**DOWNLOAD**
 
 App now available on Google Play Store.
 
@@ -30,7 +30,7 @@ https://www.youtube.com/watch?v=hgRVLA6Kw5A
 
 **HOW TO PLAY**
 
-Collect all eatable items within a minimum amount of steps.
+Collect all eatable items within a minimum amount of steps. You get one extra life when completing a level.
 
 ***
 
@@ -42,7 +42,7 @@ The more you tell me, the better my apps get. Please use the comments on <a href
 
 **PERMISSIONS**
 
-Your privacy is really important to us. The only permission that the app requires is access to the internet so the player's highscore and chosen username can be uploaded to our servers.
+Your privacy is really important to me. The only permission that this app requires is internet access. This is needed for the highscore list to function.
 
 ***
 
@@ -57,6 +57,7 @@ This game is inspired by 'Vicious Viper' which was a game made by F. Kahlig from
 * Party Whistle Sound by www.freesfx.co.uk
 * Music by Kevin MacLeod, including the following songs: Bit Quest, Nowhere Land, Pixelland, Ouroboros, Salty Ditty, Theme for Harold (var. 2), www.incompetech.com, CC Attribution 3.0
 
+***
 
 Crafted with &hearts; in <a href="http://goo.gl/KvKHze">The Refactory</a> in Ebensee 2016.
 
