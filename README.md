@@ -2,7 +2,7 @@
 
 *This Android game is inspired by Vicious Viper which was a game made by F. Kahlig from Spare Time Software in 1990.*
 
-[![version](https://img.shields.io/badge/version-1.0.1-2095ff.svg)](CHANGELOG.md) [![license](https://img.shields.io/badge/license-GPL--3.0-2095ff.svg)](LICENSE)
+[![version](https://img.shields.io/badge/version-1.0.1-2095ff.svg)](CHANGELOG.md) [![license](https://img.shields.io/badge/license-GPL--3.0-2095ff.svg)](LICENSE.md)
 
 You can follow me on my <a href="https://goo.gl/U0x1Fy">development blog</a> for the latest news on this and other projects of mine.
 
