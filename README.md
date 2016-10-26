@@ -34,11 +34,15 @@ Collect all eatable items within a minimum amount of steps. You get one extra li
 
 ## Bugs, Problems, Feedback?
 
-The more you tell me, the better my apps get. Please use the comments on <a href="https://goo.gl/g0przi">Google Play Store</a> or visit <a href="http://goo.gl/KvKHze">my website</a> to post feedback. 
+The more you tell me, the better my apps get.
+
+Please use the comments on <a href="https://goo.gl/g0przi">Google Play Store</a> or visit <a href="http://goo.gl/KvKHze">my website</a> to post feedback. 
 
 ## Permissions
 
-Your privacy is really important to me. The only permission that this app requires is internet access (android.permission.INTERNET). This is needed for the highscore list to function.
+Your privacy is really important to me.
+
+The only permission that this app requires is internet access (android.permission.INTERNET). This is needed for the highscore list to function.
 
 ***
 
