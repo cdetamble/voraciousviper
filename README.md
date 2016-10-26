@@ -1,54 +1,52 @@
-# Voracious Viper
+# ![appicon](excluded-resources/title.png) <a href="https://www.youtube.com/channel/UCShL6kEbNc02XjA89zsrtDQ"><img src="https://www.youtube.com/yt/brand/media/image/YouTube-icon-full_color.png" height="32px" align="right"></a>
 
-This game is inspired by 'Vicious Viper' which was a game made by F. Kahlig fromSpare Time Software in 1990. The game is for Android and is using the [libGDX framework](https://github.com/libgdx/libgdx).
+*This Android game is inspired by Vicious Viper which was a game made by F. Kahlig from Spare Time Software in 1990.*
 
-You can follow my <a href="https://goo.gl/U0x1Fy">development blog</a> for the latest news on this and other projects of mine.
+[![version](https://img.shields.io/badge/version-1.0.1-2095ff.svg)](CHANGELOG.md) [![license](https://img.shields.io/badge/license-GPL--3.0-2095ff.svg)](LICENSE)
 
-***
+You can follow me on my <a href="https://goo.gl/U0x1Fy">development blog</a> for the latest news on this and other projects of mine.
 
-**DOWNLOAD**
-
+## Download
+ 
 App now available on Google Play Store.
 
 <a href="https://goo.gl/g0przi"><img src="http://therefactory.bplaced.net/img/google-play-badge.png" width="180"></a>
 
-***
-
-**PROMOTION VIDEO**
+## Promotion Video
 
 Watch the promotion video showing in-game footage.
 
-https://www.youtube.com/watch?v=hgRVLA6Kw5A
+<a href="https://www.youtube.com/watch?v=hgRVLA6Kw5A"><img src="excluded-resources/youtube.png"></a>
 
-***
+## Screenshots
 
-![](https://github.com/frittatenbank/voraciousviper/raw/master/excluded-resources/screenshots/en/1.png)
-![](https://github.com/frittatenbank/voraciousviper/raw/master/excluded-resources/screenshots/en/2.png)
-![](https://github.com/frittatenbank/voraciousviper/raw/master/excluded-resources/screenshots/en/3.png)
+![](excluded-resources/screenshots/en/1.png)
+![](excluded-resources/screenshots/en/2.png)
+![](excluded-resources/screenshots/en/3.png)
 
-***
-
-**HOW TO PLAY**
+## Gameplay
 
 Collect all eatable items within a minimum amount of steps. You get one extra life when completing a level.
 
-***
-
-**PROBLEMS, FEEDBACK?**
+## Bugs, Problems, Feedback?
 
 The more you tell me, the better my apps get. Please use the comments on <a href="https://goo.gl/g0przi">Google Play Store</a> or visit <a href="http://goo.gl/KvKHze">my website</a> to post feedback. 
 
-***
+## Permissions
 
-**PERMISSIONS**
-
-Your privacy is really important to me. The only permission that this app requires is internet access. This is needed for the highscore list to function.
+Your privacy is really important to me. The only permission that this app requires is internet access (android.permission.INTERNET). This is needed for the highscore list to function.
 
 ***
 
 **LICENSE**
 
-This game is inspired by 'Vicious Viper' which was a game made by F. Kahlig fromSpare Time Software in 1990.
+Copyright &copy; 2016 Christian DeTamble
+
+Licensed under the GNU General Public License, Version 3.0. See [LICENSE](LICENSE) for details.
+
+    https://www.gnu.org/licenses/gpl-3.0.txt
+
+This game is inspired by 'Vicious Viper' which was a game made by F. Kahlig from Spare Time Software in 1990.
 
 * Game Idea by F. Kahlig and Spare Time Software
 * Sprites made by The Refactory
@@ -56,6 +54,7 @@ This game is inspired by 'Vicious Viper' which was a game made by F. Kahlig from
 * Applause Sound by Yannick Lemieux, CC Attribution 3.0
 * Party Whistle Sound by www.freesfx.co.uk
 * Music by Kevin MacLeod, including the following songs: Bit Quest, Nowhere Land, Pixelland, Ouroboros, Salty Ditty, Theme for Harold (var. 2), www.incompetech.com, CC Attribution 3.0
+* libGDX game development framework, Apache-2.0
 
 ***
 
