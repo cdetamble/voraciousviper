@@ -1,9 +1,23 @@
-package net.bplaced.therefactory.voraciousviper.core.input.gamescreen;
+/*
+ * Copyright (C) 2016  Christian DeTamble
+ *
+ * This file is part of Voracious Viper.
+ *
+ * Voracious Viper is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Voracious Viper is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Voracious Viper.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import static net.bplaced.therefactory.voraciousviper.core.input.gamescreen.AbstractGameScreenInputProcessor.CompassDirection.Down;
-import static net.bplaced.therefactory.voraciousviper.core.input.gamescreen.AbstractGameScreenInputProcessor.CompassDirection.Left;
-import static net.bplaced.therefactory.voraciousviper.core.input.gamescreen.AbstractGameScreenInputProcessor.CompassDirection.Right;
-import static net.bplaced.therefactory.voraciousviper.core.input.gamescreen.AbstractGameScreenInputProcessor.CompassDirection.Up;
+package net.bplaced.therefactory.voraciousviper.core.input.gamescreen;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,9 +34,11 @@ import net.bplaced.therefactory.voraciousviper.core.model.Viper;
 import net.bplaced.therefactory.voraciousviper.core.screens.GameScreen;
 import net.bplaced.therefactory.voraciousviper.core.screens.GameScreen.GameState;
 
-/**
- * Created by Christian on 17.09.2016.
- */
+import static net.bplaced.therefactory.voraciousviper.core.input.gamescreen.AbstractGameScreenInputProcessor.CompassDirection.Down;
+import static net.bplaced.therefactory.voraciousviper.core.input.gamescreen.AbstractGameScreenInputProcessor.CompassDirection.Left;
+import static net.bplaced.therefactory.voraciousviper.core.input.gamescreen.AbstractGameScreenInputProcessor.CompassDirection.Right;
+import static net.bplaced.therefactory.voraciousviper.core.input.gamescreen.AbstractGameScreenInputProcessor.CompassDirection.Up;
+
 public class TouchAreasInputProcessor extends AbstractGameScreenInputProcessor implements IRenderableInputProcessor {
 
 	private final Viper viper;

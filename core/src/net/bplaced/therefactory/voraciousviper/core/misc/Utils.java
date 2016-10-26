@@ -1,8 +1,23 @@
-package net.bplaced.therefactory.voraciousviper.core.misc;
+/*
+ * Copyright (C) 2016  Christian DeTamble
+ *
+ * This file is part of Voracious Viper.
+ *
+ * Voracious Viper is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Voracious Viper is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Voracious Viper.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
+package net.bplaced.therefactory.voraciousviper.core.misc;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,9 +29,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
-/**
- * Created by Christian on 17.09.2016.
- */
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
+
 public class Utils {
 
 	private static final Random random = new Random();
