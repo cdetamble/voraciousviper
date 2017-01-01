@@ -2,7 +2,9 @@
 
 *This Android game is inspired by Vicious Viper which was a game made by F. Kahlig from Spare Time Software in 1990.*
 
-[![version](https://img.shields.io/badge/version-1.0.1-2095ff.svg)](CHANGELOG.md) [![license](https://img.shields.io/badge/license-GPL--3.0-2095ff.svg)](LICENSE.md)
+[![version](https://img.shields.io/badge/version-1.0.1-2095ff.svg)](CHANGELOG.md)
+[![license](https://img.shields.io/badge/license-GPL--3.0-2095ff.svg)](LICENSE.md)
+[![download](https://img.shields.io/badge/download-play store-2095ff.svg)](http://goo.gl/g0przi)
 
 Beer, Wine, Coke, Steaks and Cake – This Viper is Voracious!
 
@@ -34,11 +36,13 @@ Collect all eatable items within a minimum amount of steps. You get one extra li
 
 ## Bugs, Problems, Feedback?
 
-The more you tell me, the better my apps get. Please use the comments on <a href="https://goo.gl/g0przi">Google Play Store</a> or visit <a href="http://goo.gl/KvKHze">my website</a> to post feedback. 
+The more you tell me, the better my apps get.
+Please use the comments on <a href="https://goo.gl/g0przi">Google Play Store</a> or visit <a href="http://goo.gl/KvKHze">my website</a> to post feedback. 
 
 ## Permissions
 
-Your privacy is really important to me. The only permission that this app requires is internet access (android.permission.INTERNET). This is needed for the highscore list to function.
+Your privacy is really important to me.
+The only permission that this app requires is internet access (android.permission.INTERNET). This is needed for the highscore list to function.
 
 ***
 
@@ -55,9 +59,9 @@ This game is inspired by 'Vicious Viper' which was a game made by F. Kahlig from
 * Game Idea by F. Kahlig and Spare Time Software
 * Sprites made by The Refactory
 * Viper Sounds made with Bfxr 1.4.1, www.bfxr.net
-* Applause Sound by Yannick Lemieux, CC Attribution 3.0
+* Applause Sound by Yannick Lemieux, CC BY 3.0
 * Party Whistle Sound by www.freesfx.co.uk
-* Music by Kevin MacLeod, including the following songs: Bit Quest, Nowhere Land, Pixelland, Ouroboros, Salty Ditty, Theme for Harold (var. 2), www.incompetech.com, CC Attribution 3.0
+* Music by Kevin MacLeod, including the following songs: Bit Quest, Nowhere Land, Pixelland, Ouroboros, Salty Ditty, Theme for Harold (var. 2), www.incompetech.com, CC BY 3.0
 * libGDX game development framework, Apache-2.0
 
 ***
