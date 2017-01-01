@@ -9,6 +9,7 @@ Voracious Viper - Changelog
 * Fixed calculating wrong level when submitting scores
 * Fixed bug in checking for null values when submitting scores
 * Changed language icons
+* Upgraded to libGDX 1.9.5
 
 ### Version 1.0.1 - October 24, 2016
 
