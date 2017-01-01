@@ -75,9 +75,8 @@ Thumbs.db
 HttpServer.java
 Security.java
 *.apk
-/excluded-resources/video/device-2016-10-18-224710.mp4
-/excluded-resources/video/device-2016-10-18-225418.mp4
-/excluded-resources/video/device-2016-10-18-231356.mp4
-/excluded-resources/video/Mein Film mit Sounds.mp4
-/excluded-resources/video/Mein Film.mp4
+/excluded-resources/video/*
 /core/src/net/bplaced/therefactory/voraciousviper/core/net/HttpResponseListener.java
+/excluded-resources/libgdx token.txt
+/excluded-resources/video/Mein Film mit Sounds.wlmp
+/excluded-resources/video/*.wlmp

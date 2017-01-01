@@ -5,343 +5,343 @@ filter: Nearest,Nearest
 repeat: none
 controls_relative
   rotate: false
-  xy: 1, 107
+  xy: 1, 21
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 controls_touchareas
   rotate: false
-  xy: 1, 73
+  xy: 35, 21
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 controls_touchpad
   rotate: false
-  xy: 35, 107
+  xy: 69, 21
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-flag_germany
+flag_austria
   rotate: false
-  xy: 1, 39
+  xy: 103, 21
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 flag_usa
   rotate: false
-  xy: 35, 73
+  xy: 137, 21
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Info
   rotate: false
-  xy: 69, 107
+  xy: 171, 21
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 music.off
   rotate: false
-  xy: 1, 5
+  xy: 205, 21
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 music.on
   rotate: false
-  xy: 35, 39
+  xy: 239, 21
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 settings
   rotate: false
-  xy: 69, 73
+  xy: 273, 21
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 sound.off
   rotate: false
-  xy: 103, 107
+  xy: 307, 21
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 sound.on
   rotate: false
-  xy: 35, 5
+  xy: 341, 21
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Title.Green
   rotate: false
-  xy: 137, 126
+  xy: 1, 6
   size: 34, 13
   orig: 34, 13
   offset: 0, 0
   index: -1
 Beer
   rotate: false
-  xy: 69, 53
+  xy: 375, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Body.Blue
   rotate: false
-  xy: 103, 87
+  xy: 401, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Body.Green
   rotate: false
-  xy: 69, 33
+  xy: 427, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Body.Purple
   rotate: false
-  xy: 69, 13
+  xy: 453, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Burger
   rotate: false
-  xy: 137, 106
+  xy: 479, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Cake
   rotate: false
-  xy: 173, 121
+  xy: 505, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Coke
   rotate: false
-  xy: 199, 121
+  xy: 531, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Door
   rotate: false
-  xy: 225, 121
+  xy: 557, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Head.X.1.Blue
   rotate: false
-  xy: 103, 67
+  xy: 583, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Head.X.1.Green
   rotate: false
-  xy: 129, 86
+  xy: 609, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Head.X.1.Purple
   rotate: false
-  xy: 129, 66
+  xy: 635, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Head.X.2.Blue
   rotate: false
-  xy: 95, 47
+  xy: 661, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Head.X.2.Green
   rotate: false
-  xy: 95, 27
+  xy: 687, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Head.X.2.Purple
   rotate: false
-  xy: 95, 7
+  xy: 713, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Head.Y.1.Blue
   rotate: false
-  xy: 121, 46
+  xy: 739, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Head.Y.1.Green
   rotate: false
-  xy: 121, 26
+  xy: 765, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Head.Y.1.Purple
   rotate: false
-  xy: 121, 6
+  xy: 791, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Head.Y.2.Blue
   rotate: false
-  xy: 163, 101
+  xy: 817, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Head.Y.2.Green
   rotate: false
-  xy: 189, 101
+  xy: 843, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Head.Y.2.Purple
   rotate: false
-  xy: 215, 101
+  xy: 869, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Key.1
   rotate: false
-  xy: 155, 81
+  xy: 895, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Key.2
   rotate: false
-  xy: 181, 81
+  xy: 921, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Meat
   rotate: false
-  xy: 207, 81
+  xy: 947, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Poison.1
   rotate: false
-  xy: 155, 61
+  xy: 973, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Poison.2
   rotate: false
-  xy: 181, 61
+  xy: 999, 35
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Skull.1
   rotate: false
-  xy: 207, 61
+  xy: 37, 1
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Skull.2
   rotate: false
-  xy: 147, 41
+  xy: 63, 1
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Tail.X.Blue
   rotate: false
-  xy: 147, 21
+  xy: 89, 1
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Tail.X.Green
   rotate: false
-  xy: 173, 41
+  xy: 115, 1
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Tail.X.Purple
   rotate: false
-  xy: 173, 21
+  xy: 141, 1
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Tail.Y.Blue
   rotate: false
-  xy: 199, 41
+  xy: 167, 1
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Tail.Y.Green
   rotate: false
-  xy: 199, 21
+  xy: 193, 1
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Tail.Y.Purple
   rotate: false
-  xy: 147, 1
+  xy: 219, 1
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Wall
   rotate: false
-  xy: 173, 1
+  xy: 245, 1
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 Wine
   rotate: false
-  xy: 199, 1
+  xy: 271, 1
   size: 24, 18
   orig: 24, 18
   offset: 0, 0
   index: -1
 particle
   rotate: false
-  xy: 69, 1
+  xy: 375, 23
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 fade
   rotate: false
-  xy: 95, 70
+  xy: 1, 3
   size: 1, 1
   orig: 1, 1
   offset: 0, 0

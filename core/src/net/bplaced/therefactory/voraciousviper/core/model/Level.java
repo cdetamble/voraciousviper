@@ -50,7 +50,7 @@ public class Level {
 	private final Tile[][] tiles; // holds all level tiles including the viper
     private final Tile[][][] tilesDefault; // for resetting the level to its default state
 	private final Array<TileAnimated> tilesAnimated; // for fast looping over animated tiles excluding the viper
-	private int indexCurrentLevel;
+	private int indexCurrentLevel, indexCurrentLevelContinuous;
     private final Viper viper;
 	private final GameScreen gameScreen;
     private boolean animateInThisTick;
@@ -69,6 +69,7 @@ public class Level {
         tilesAnimated = new Array<TileAnimated>();
         viper = new Viper(this, textureAtlas);
         indexCurrentLevel = 0;
+        indexCurrentLevelContinuous = 0;
         numConsumedTiles = 0;
         numConsumableTiles = 0;
     }
@@ -262,6 +263,7 @@ public class Level {
                 if (viper.hasCrashed()) {
                 	VoraciousViper.getInstance().playSound("audio/sounds/lose.ogg");
                     gameScreen.setState(viper.getNumLives() > 2 && numConsumedTiles > 0 ? ShowContinueDialog : ViperCrashed);
+                    viper.decrementLives();
                 } else {
                     if (numConsumedTiles == numConsumableTiles) {
                     	VoraciousViper.getInstance().playSound("audio/sounds/win.ogg");
@@ -287,7 +289,6 @@ public class Level {
 					setHadFirstLevelTransition(true);
 					if (viper.hasCrashed()) {
 						viper.setHasCrashed(false);
-						viper.decrementLives();
 					}
 					viper.restart(true);
 					indexCurrentColumn = 0;
@@ -303,7 +304,7 @@ public class Level {
             case LevelFinished:
 			case ViperCrashed:
                 if (!gameScreen.getState().equals(ShowContinueDialog)) {
-                    if (numTicks == 2) { // wait some ticks before showing level loading animation
+                	if (numTicks == 2) { // wait some ticks before showing level loading animation
                         numTicks = 0;
                         if (viper.hasCrashed()) {
                             if (viper.getNumLives() == 0) { // lives will be decremented in GameIsBeginning state
@@ -319,10 +320,11 @@ public class Level {
                                         VoraciousViper.getInstance().playSound("audio/sounds/applause.ogg");
                                         SettingsManager.getInstance().setScore(viper.getScore());
                                         SettingsManager.getInstance().setNumSteps(viper.getNumSteps());
+                                        SettingsManager.getInstance().setLevel(indexCurrentLevelContinuous + 1); // index starts with 0
                                         HttpServer.submitHighscore(SettingsManager.getInstance().getPlayerId(),
                                                 SettingsManager.getInstance().getPlayerName(),
                                                 viper.getNumSteps(),
-                                                indexCurrentLevel + 1,
+                                                SettingsManager.getInstance().getLevel(),
                                                 viper.getScore(),
                                                 VoraciousViper.getInstance().getVersionCode(),
                                                 true);
@@ -395,6 +397,7 @@ public class Level {
 
 	public void incrementCurrentLevel() {
 		indexCurrentLevel = (indexCurrentLevel + 1) % (tilesDefault.length);
+		indexCurrentLevelContinuous++;
         viper.incrementLives();
 	}
 
@@ -403,6 +406,7 @@ public class Level {
 		clearTiles();
 		hadFirstLevelTransition = false;
 		indexCurrentLevel = 0;
+		indexCurrentLevelContinuous = 0;
 		numConsumableTiles = 0;
 		viper.reset();
 		gameScreen.setState(LevelTransition);

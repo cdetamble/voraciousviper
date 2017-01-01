@@ -167,7 +167,7 @@ public class GameScreen extends ScreenAdapter {
 						VoraciousViper.getInstance().showScoreTable();
 					}
 				}),
-				new RetroBundleTextButton(shapeRenderer, buttonWidth, buttonHeight, VoraciousViper.getInstance().getAmigaFont(), I18NKeys.Restart, new ClickListener() {
+				new RetroBundleTextButton(shapeRenderer, buttonWidth, buttonHeight, VoraciousViper.getInstance().getAmigaFont(), I18NKeys.PlayAgain, new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
@@ -179,23 +179,22 @@ public class GameScreen extends ScreenAdapter {
 
 		// continue dialog
 		buttonsContinueDialog = new RetroBundleTextButton[] {
+				new RetroBundleTextButton(shapeRenderer, buttonWidth, buttonHeight, VoraciousViper.getInstance().getAmigaFont(), I18NKeys.ResetText, new ClickListener() {
+					@Override
+					public void clicked(InputEvent event, float x, float y) {
+						super.clicked(event, x, y);
+						setState(GameState.ViperCrashed);
+					}
+				}),
 				new RetroBundleTextButton(shapeRenderer, buttonWidth, buttonHeight, VoraciousViper.getInstance().getAmigaFont(), I18NKeys.Continue, new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
                         getLevel().removeViper();
                         getViper().decrementLives();
-                        getViper().decrementLives();
                         getViper().setHasCrashed(false);
                         getViper().restart(false);
                         setState(GameState.GameIsBeginning);
-					}
-				}),
-				new RetroBundleTextButton(shapeRenderer, buttonWidth, buttonHeight, VoraciousViper.getInstance().getAmigaFont(), I18NKeys.Cancel, new ClickListener() {
-					@Override
-					public void clicked(InputEvent event, float x, float y) {
-						super.clicked(event, x, y);
-						setState(GameState.ViperCrashed);
 					}
 				})
 		};

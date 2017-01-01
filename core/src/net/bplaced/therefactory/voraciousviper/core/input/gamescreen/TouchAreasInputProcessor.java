@@ -19,6 +19,7 @@
 
 package net.bplaced.therefactory.voraciousviper.core.input.gamescreen;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -112,9 +113,30 @@ public class TouchAreasInputProcessor extends AbstractGameScreenInputProcessor i
 
 			shapeRenderer.setColor(buttonEdgeColor);
 			shapeRenderer.set(ShapeRenderer.ShapeType.Line);
-			for (Rectangle rectangle : rectangles) {
-				shapeRenderer.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
-			}
+			shapeRenderer.rect(rectangles[Left.ordinal()].getX(), rectangles[Left.ordinal()].getY(), rectangles[Left.ordinal()].getWidth(), rectangles[Left.ordinal()].getHeight());
+			shapeRenderer.rect(rectangles[Right.ordinal()].getX(), rectangles[Right.ordinal()].getY(), rectangles[Right.ordinal()].getWidth(), rectangles[Right.ordinal()].getHeight());
+			shapeRenderer.line(rectangles[Up.ordinal()].getX(), rectangles[Up.ordinal()].getY(), rectangles[Right.ordinal()].getX(), rectangles[Up.ordinal()].getY());
+
+			shapeRenderer.polygon(new float[] {
+					60, Config.WINDOW_HEIGHT/2 - 10,
+					45, Config.WINDOW_HEIGHT/2,
+					60, Config.WINDOW_HEIGHT/2 + 10
+					});
+			shapeRenderer.polygon(new float[] {
+					565, Config.WINDOW_HEIGHT/2 - 10,
+					580, Config.WINDOW_HEIGHT/2,
+					565, Config.WINDOW_HEIGHT/2 + 10
+					});
+			shapeRenderer.polygon(new float[] {
+					Config.WINDOW_WIDTH/2, Config.WINDOW_HEIGHT - 60,
+					Config.WINDOW_WIDTH/2 - 10, Config.WINDOW_HEIGHT - 75,
+					Config.WINDOW_WIDTH/2 + 10, Config.WINDOW_HEIGHT - 75
+					});
+			shapeRenderer.polygon(new float[] {
+					Config.WINDOW_WIDTH/2, 40,
+					Config.WINDOW_WIDTH/2 - 10, 55,
+					Config.WINDOW_WIDTH/2 + 10, 55
+					});
 		}
 	}
 

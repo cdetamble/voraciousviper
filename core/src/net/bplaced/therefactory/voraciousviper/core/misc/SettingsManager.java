@@ -80,11 +80,11 @@ public class SettingsManager {
 	}
 
 	public int getNumSteps() {
-		return preferences.getInteger(PrefsKeys.NumSteps, 0);
+		return preferences.getInteger(PrefsKeys.NumSteps, Integer.MIN_VALUE);
 	}
 
 	public int getLevel() {
-		return preferences.getInteger(PrefsKeys.Level);
+		return preferences.getInteger(PrefsKeys.Level, Integer.MIN_VALUE);
 	}
 
 	public int getScore() {
@@ -93,6 +93,10 @@ public class SettingsManager {
 
 	public void setScore(int bestScore) {
 		preferences.putInteger(PrefsKeys.Score, bestScore).flush();
+	}
+	
+	public void setLevel(int level) {
+		preferences.putInteger(PrefsKeys.Level, level).flush();
 	}
 
 	public void setNumSteps(int bestNumSteps) {

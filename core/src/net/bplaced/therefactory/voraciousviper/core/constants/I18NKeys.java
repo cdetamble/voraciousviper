@@ -50,5 +50,8 @@ public class I18NKeys {
     public static final String ContinueText = "continue_text";
 	public static final String Updating = "updating";
 	public static final String GameOverText = "game_over_text";
+	public static final String ResetText = "reset_text";
+	public static final String SetYourPlayernameToSeeHighscores = "set_your_playername_to_see_highscores";
+	public static final String PlayAgain = "play_again";
 
 }

@@ -248,7 +248,7 @@ public class TitleScreen extends ScreenAdapter {
 			new RetroImageButton[] {
 					new RetroImageButton(shapeRenderer, buttonSize, buttonSize, skin.getDrawable("flag_usa"),
 							PrefsKeys.Language, Locale.ENGLISH.toString()),
-					new RetroImageButton(shapeRenderer, buttonSize, buttonSize, skin.getDrawable("flag_germany"),
+					new RetroImageButton(shapeRenderer, buttonSize, buttonSize, skin.getDrawable("flag_austria"),
 							PrefsKeys.Language, Locale.GERMAN.toString()) },
 			new RetroImageToggleButton[] {
 					new RetroImageToggleButton(shapeRenderer, buttonSize, buttonSize, skin.getDrawable("music.on"),
@@ -343,6 +343,9 @@ public class TitleScreen extends ScreenAdapter {
 	}
 
 	public void showScoreTable() {
+		if (SettingsManager.getInstance().getPlayerName() == null || SettingsManager.getInstance().getPlayerName().length() == 0) {
+			VoraciousViper.getInstance().toast(VoraciousViper.getInstance().getBundle().get(I18NKeys.SetYourPlayernameToSeeHighscores), true);
+		}
 		customHighscoreText = "";
 		fetching = true;
 		if (scoreEntries == null) {
@@ -513,6 +516,7 @@ public class TitleScreen extends ScreenAdapter {
 			if (state.equals(TitleScreenState.ShowMainMenu)) {
 				font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.CopyrightText), 150, 40);
 			}
+			font.setColor(Color.LIGHT_GRAY);
 			font.draw(stage.getBatch(),
 					VoraciousViper.getInstance().getBundle().get(I18NKeys.Version) +
 							" " + VoraciousViper.getInstance().getVersionName(),
@@ -603,8 +607,8 @@ public class TitleScreen extends ScreenAdapter {
 		font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.ViviTopScoreTable),
 				xOffsetScoreTable + 240, viewport.getWorldHeight()-20);
 
-		font.setColor(Color.GRAY);
-		font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.Name), xOffsetScoreTable+45, viewport.getWorldHeight()-40);
+		font.setColor(Color.LIGHT_GRAY);
+		font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.Name), xOffsetScoreTable+46, viewport.getWorldHeight()-40);
 		font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.Date), xOffsetScoreTable+240, viewport.getWorldHeight()-40);
 		font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.Steps), xOffsetScoreTable+390, viewport.getWorldHeight()-40);
 		font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.Level), xOffsetScoreTable+460, viewport.getWorldHeight()-40);
@@ -624,8 +628,8 @@ public class TitleScreen extends ScreenAdapter {
 					// name
 					stringBuilder.append(Utils.padLeft(i + 1, 3))
 							.append(". ")
-							.append(scoreEntries[i].getName());
-					font.draw(stage.getBatch(), stringBuilder, xOffsetScoreTable+10, y);
+							.append(scoreEntries[i].getName().trim().length() == 0 ? VoraciousViper.getInstance().getBundle().get(I18NKeys.Unknown) : scoreEntries[i].getName());
+					font.draw(stage.getBatch(), stringBuilder, xOffsetScoreTable + 10, y);
 					stringBuilder.setLength(0);
 
 					// date
