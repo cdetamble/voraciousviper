@@ -76,7 +76,7 @@ HttpServer.java
 Security.java
 *.apk
 /excluded-resources/video/*
-/core/src/net/bplaced/therefactory/voraciousviper/core/net/HttpResponseListener.java
+/core/src/net.bplaced.therefactory.voraciousviper.net/HttpResponseListener.java
 /excluded-resources/libgdx token.txt
 /excluded-resources/video/Mein Film mit Sounds.wlmp
 /excluded-resources/video/*.wlmp
