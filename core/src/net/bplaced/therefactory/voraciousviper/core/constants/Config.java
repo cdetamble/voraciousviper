@@ -35,8 +35,8 @@ public class Config {
 
     // app
 	public static final String GAME_TITLE = "VoVi: Voracious Viper";
-    public static final String GAME_VERSION_NAME = "1.0.2";
-    public static final int GAME_VERSION_CODE = 6;
+    public static final String GAME_VERSION_NAME = "1.0.3";
+    public static final int GAME_VERSION_CODE = 7;
 
     // game play
     public static final int NUM_FRAMES_FOR_TICK = 8;

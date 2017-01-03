@@ -19,14 +19,17 @@
 
 package net.bplaced.therefactory.voraciousviper.core.input;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 
 import net.bplaced.therefactory.voraciousviper.core.constants.Config;
 import net.bplaced.therefactory.voraciousviper.core.misc.Utils;
 import net.bplaced.therefactory.voraciousviper.core.screens.TitleScreen;
+import net.bplaced.therefactory.voraciousviper.core.screens.TitleScreen.TitleScreenState;
 
-public class ScoreTableInputProcessor extends InputAdapter {
+public class TitleScreenInputProcessor extends InputAdapter {
 
 	private final TitleScreen titleScreen;
 	private float deltaY;
@@ -37,11 +40,25 @@ public class ScoreTableInputProcessor extends InputAdapter {
 	private final float bottomY;
 //	private boolean scrollbarHandleDragging;
 
-	public ScoreTableInputProcessor(TitleScreen titleScreen, float topY, float bottomY) {
+	public TitleScreenInputProcessor(TitleScreen titleScreen, float topY, float bottomY) {
 		this.titleScreen = titleScreen;
 		this.topY = topY;
 		this.bottomY = bottomY;
 	}
+	
+    @Override
+    public boolean keyDown(int keycode) {
+        boolean returnValue = super.keyDown(keycode);
+        if (keycode == Keys.BACK) {
+            if (!titleScreen.getState().equals(TitleScreenState.ShowMainMenu)) {
+            	titleScreen.setState(TitleScreenState.ShowMainMenu);
+            } else {
+                Gdx.app.exit();
+            }
+            return true;
+        }
+        return returnValue;
+    }
 	
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {

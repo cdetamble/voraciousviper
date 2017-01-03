@@ -1,6 +1,11 @@
 Voracious Viper - Changelog
 =========
 
+### Version 1.0.3 - January 3, 2017
+
+* Added support for the Android back key
+* Improved efficiency of rendering the scoretable by ignoring text that is outside of the viewport
+
 ### Version 1.0.2 - January 1, 2017
 
 * Unknown players will be ignored in the scoretable

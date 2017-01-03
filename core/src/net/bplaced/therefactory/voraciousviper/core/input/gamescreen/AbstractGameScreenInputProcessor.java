@@ -19,6 +19,7 @@
 
 package net.bplaced.therefactory.voraciousviper.core.input.gamescreen;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -46,7 +47,7 @@ public abstract class AbstractGameScreenInputProcessor extends InputAdapter impl
     final GameScreen gameScreen;
 	Viewport viewport;
 	
-	private RetroTextButton abortButton;
+	private RetroTextButton pauseButton;
 	final Stage stage;
 	int numTouches = 0;
 	final Color buttonEdgeColor = new Color(.4f,.4f,.4f,.5f);
@@ -66,23 +67,39 @@ public abstract class AbstractGameScreenInputProcessor extends InputAdapter impl
         Skin skin = new Skin();
         skin.addRegions(textureAtlas);
     	
-        abortButton = new RetroTextButton(shapeRenderer, Config.TILE_WIDTH*2, Config.TILE_HEIGHT*2, VoraciousViper.getInstance().getAmigaFont(), "X", new ClickListener() {
+        pauseButton = new RetroTextButton(shapeRenderer, Config.TILE_WIDTH*2, Config.TILE_HEIGHT*2, VoraciousViper.getInstance().getAmigaFont(), "X", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                if (!abortButton.isVisible()) return;
-                if (gameScreen.getState() == GameState.ShowPauseMenuDialog) {
-	    			gameScreen.setState(gameScreen.getPreviousGameState());
-	    		} else {
-	    			gameScreen.setPreviousGameState(gameScreen.getState());
-	    			gameScreen.setState(GameState.ShowPauseMenuDialog);
-	    		}
+                pause();
             }
         });
-        abortButton.setPosition(viewport.getWorldWidth()-abortButton.getWidth(), viewport.getWorldHeight()-abortButton.getHeight());
-        abortButton.setThickness(3);
+        pauseButton.setPosition(viewport.getWorldWidth()-pauseButton.getWidth(), viewport.getWorldHeight()-pauseButton.getHeight());
+        pauseButton.setThickness(3);
         
-        stage.addActor(abortButton);
+        stage.addActor(pauseButton);
+    }
+    
+    private void pause() {
+    	if (!pauseButton.isVisible()) return;
+        if (gameScreen.getState() == GameState.ShowPauseMenuDialog) {
+			gameScreen.setState(gameScreen.getPreviousGameState());
+		} else {
+			gameScreen.setPreviousGameState(gameScreen.getState());
+			gameScreen.setState(GameState.ShowPauseMenuDialog);
+		}
+    }
+	
+    @Override
+    public boolean keyDown(int keycode) {
+        boolean returnValue = super.keyDown(keycode);
+        if (keycode == Keys.BACK) {
+            if (!gameScreen.getState().equals(GameState.ShowPauseMenuDialog)) {
+            	pause();
+                return true;
+            }
+        }
+        return returnValue;
     }
 
     @Override
@@ -125,9 +142,9 @@ public abstract class AbstractGameScreenInputProcessor extends InputAdapter impl
     public void render(SpriteBatch batch, BitmapFont font) {
     	if (gameScreen.getLevel().hadFirstLevelTransition()) {
     		stage.act();
-    		abortButton.setVisible(!gameScreen.getState().equals(GameState.ShowGameOverDialog));
-    		if (abortButton.isVisible()) {
-    			abortButton.draw(batch, 1f);
+    		pauseButton.setVisible(!gameScreen.getState().equals(GameState.ShowGameOverDialog));
+    		if (pauseButton.isVisible()) {
+    			pauseButton.draw(batch, 1f);
     		}
     	}
 	}

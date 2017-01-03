@@ -141,7 +141,7 @@ public class GameScreen extends ScreenAdapter {
 						level.reset();
 					}
 				}),
-				new RetroBundleTextButton(shapeRenderer, buttonWidth, buttonHeight, VoraciousViper.getInstance().getAmigaFont(), I18NKeys.Cancel, new ClickListener() {
+				new RetroBundleTextButton(shapeRenderer, buttonWidth, buttonHeight, VoraciousViper.getInstance().getAmigaFont(), I18NKeys.Continue, new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);
@@ -186,7 +186,7 @@ public class GameScreen extends ScreenAdapter {
 						setState(GameState.ViperCrashed);
 					}
 				}),
-				new RetroBundleTextButton(shapeRenderer, buttonWidth, buttonHeight, VoraciousViper.getInstance().getAmigaFont(), I18NKeys.Continue, new ClickListener() {
+				new RetroBundleTextButton(shapeRenderer, buttonWidth, buttonHeight, VoraciousViper.getInstance().getAmigaFont(), I18NKeys.ContinueLevel, new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						super.clicked(event, x, y);

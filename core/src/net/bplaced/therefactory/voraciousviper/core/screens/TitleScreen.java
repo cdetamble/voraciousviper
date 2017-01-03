@@ -47,7 +47,7 @@ import net.bplaced.therefactory.voraciousviper.core.constants.Config;
 import net.bplaced.therefactory.voraciousviper.core.constants.I18NKeys;
 import net.bplaced.therefactory.voraciousviper.core.constants.PrefsKeys;
 import net.bplaced.therefactory.voraciousviper.core.input.KeyboardInputListener;
-import net.bplaced.therefactory.voraciousviper.core.input.ScoreTableInputProcessor;
+import net.bplaced.therefactory.voraciousviper.core.input.TitleScreenInputProcessor;
 import net.bplaced.therefactory.voraciousviper.core.input.buttons.AbstractRetroButton;
 import net.bplaced.therefactory.voraciousviper.core.input.buttons.RetroBundleTextButton;
 import net.bplaced.therefactory.voraciousviper.core.input.buttons.RetroImageButton;
@@ -65,7 +65,7 @@ import java.util.Locale;
 public class TitleScreen extends ScreenAdapter {
 
     private TitleScreenState state;
-	private enum TitleScreenState {
+	public enum TitleScreenState {
 		ShowMainMenu, ShowSettings, ShowAbout, ShowBadge, ShowScoreTable
 	}
 
@@ -98,7 +98,7 @@ public class TitleScreen extends ScreenAdapter {
 	private ScoreEntry[] scoreEntries;
 	private final StringBuilder stringBuilder;
 	private CharSequence customHighscoreText = "";
-	private final ScoreTableInputProcessor inputHandler;
+	private final TitleScreenInputProcessor inputHandler;
 	private final InputMultiplexer inputMultiplexer;
 	private final RetroTextButton scrollbarHandle;
 	private boolean fetching;
@@ -327,7 +327,7 @@ public class TitleScreen extends ScreenAdapter {
 		scrollbarCurrentY = scrollbarMaximumY;
 		
 		inputMultiplexer = new InputMultiplexer();
-		inputHandler = new ScoreTableInputProcessor(this, scrollbarMaximumY, 0);  
+		inputHandler = new TitleScreenInputProcessor(this, scrollbarMaximumY, 0);  
 		inputMultiplexer.addProcessor(inputHandler);
 		inputMultiplexer.addProcessor(stage);
 		scrollbarHandle = new RetroTextButton(shapeRenderer, 52, 25, font, "", new ClickListener() {
@@ -366,7 +366,7 @@ public class TitleScreen extends ScreenAdapter {
 		setState(TitleScreenState.ShowScoreTable);
 	}
 
-	private void setState(TitleScreenState state) {
+	public void setState(TitleScreenState state) {
 		this.state = state;
         if (state.equals(TitleScreenState.ShowSettings)) {
             synchronizeCheckedStatesOfSettingsButtons();
@@ -623,7 +623,7 @@ public class TitleScreen extends ScreenAdapter {
 				font.setColor(scoreEntries[i].getId().equals(SettingsManager.getInstance().getPlayerId()) ?
 						new Color(0, 1, 0, fetching ? .5f : 1) : new Color(1, 1, 1, fetching ? .5f : 1));
 				float y = (scrollbarMaximumY - i * Config.LINE_HEIGHT_HIGHSCORES + inputHandler.getDeltaY());
-				if (y <= scrollbarMaximumY) { // lines disappear when having y above topY
+				if (y > 0 && y <= scrollbarMaximumY) { // lines disappear when having y above topY and below 0
 
 					// name
 					stringBuilder.append(Utils.padLeft(i + 1, 3))
@@ -666,8 +666,8 @@ public class TitleScreen extends ScreenAdapter {
 		camera.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2, 0);
 		camera.update();
 		xOffset = 0;
-		Gdx.input.setInputProcessor(inputMultiplexer);
 		Gdx.input.setCatchBackKey(true);
+		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
 	@Override
@@ -741,6 +741,10 @@ public class TitleScreen extends ScreenAdapter {
 	
 	public void setCustomHighscoreText(String customHighscoreText) {
 		this.customHighscoreText = customHighscoreText;
+	}
+
+	public TitleScreenState getState() {
+		return state;
 	}
 
 }

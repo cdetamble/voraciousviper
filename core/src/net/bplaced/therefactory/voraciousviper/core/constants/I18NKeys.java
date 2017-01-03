@@ -47,6 +47,7 @@ public class I18NKeys {
 	public static final String ViviTopScoreTable = "vivi_top_score_table";
 	public static final String Name = "name";
 	public static final String Continue = "continue";
+	public static final String ContinueLevel = "continue_level";
     public static final String ContinueText = "continue_text";
 	public static final String Updating = "updating";
 	public static final String GameOverText = "game_over_text";
