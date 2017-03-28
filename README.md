@@ -4,7 +4,7 @@
 
 [![version](https://img.shields.io/badge/version-1.0.3-2095ff.svg)](CHANGELOG.md)
 [![license](https://img.shields.io/badge/license-GPL--3.0-2095ff.svg)](LICENSE.md)
-[![download](https://img.shields.io/badge/download-play store-2095ff.svg)](http://goo.gl/g0przi)
+[![download](https://img.shields.io/badge/download-playstore-2095ff.svg)](http://goo.gl/g0przi)
 
 Beer, Wine, Coke, Steaks and Cake – This Viper is Voracious!
 
