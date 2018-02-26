@@ -1,4 +1,4 @@
-# ![appicon](excluded-resources/title.png) <a href="https://www.youtube.com/channel/UCShL6kEbNc02XjA89zsrtDQ"><img src="https://www.youtube.com/yt/brand/media/image/YouTube-icon-full_color.png" height="32px" align="right"></a>
+# ![appicon](excluded-resources/title.png) <a href="https://www.youtube.com/channel/UCShL6kEbNc02XjA89zsrtDQ"><img src="http://therefactory.bplaced.net/img/youtube_hover.png" height="32px" align="right"></a>
 
 *This Android game is inspired by Vicious Viper which was a game made by F. Kahlig from Spare Time Software in 1990.*
 
