@@ -29,7 +29,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -107,5 +106,8 @@ public class Utils {
 	public static void async(Runnable runnable) {
 		new Thread(runnable).start();
 	}
-	
+
+	public static float oscilliate(float x, float min, float max, float period) {
+		return max - (float) (Math.sin(x * 2f * Math.PI / period) * ((max - min) / 2f) + ((max - min) / 2f));
+	}
 }

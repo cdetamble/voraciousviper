@@ -62,233 +62,275 @@ import net.bplaced.therefactory.voraciousviper.net.HttpServer;
 
 import java.util.Locale;
 
+import static net.bplaced.therefactory.voraciousviper.constants.Config.URL_TO_PLAY_STORE;
+import static net.bplaced.therefactory.voraciousviper.constants.Config.URL_TO_SOUNDTRACK;
+
 public class TitleScreen extends ScreenAdapter {
 
     private TitleScreenState state;
-	public enum TitleScreenState {
-		ShowMainMenu, ShowSettings, ShowAbout, ShowBadge, ShowScoreTable
-	}
+    private float elapsedTime;
 
-	private final Stage stage;
-	private FitViewport viewport;
-	private final OrthographicCamera camera;
-	private final ShapeRenderer shapeRenderer;
+    public enum TitleScreenState {
+        ShowMainMenu, ShowSettings, ShowAbout, ShowBadge, ShowScoreTable
+    }
 
-	private final RetroTextButton buttonSwitchBetweenAboutAndSettings;
-	private final RetroTextButton buttonClose;
-	private final AbstractRetroButton[][] buttonsSettings;
-	private final RetroBundleTextButton[] buttonsMainMenu;
+    private final Stage stage;
+    private FitViewport viewport;
+    private final OrthographicCamera camera;
+    private final ShapeRenderer shapeRenderer;
 
-	private final Rectangle rectangleTitle;
-	private final Rectangle rectangleTitleScoreTable;
-	
-	private static final Color colorViperBlue = new Color(0, 0, 170f/255f, 1); // blue
-	private static final Color colorViperPurple = new Color(170f/255f, 0, 1, 1); // purple
-	private final Color colorScaler;
+    private final RetroTextButton buttonSwitchBetweenAboutAndSettings;
+    private final RetroTextButton buttonClose;
+    private final RetroTextButton buttonRate;
+    private final RetroTextButton buttonSoudtrack;
+    private final AbstractRetroButton[][] buttonsSettings;
+    private final RetroBundleTextButton[] buttonsMainMenu;
 
-	private final Sprite spriteInfo;
-	private final Sprite[] spritesViperHeads;
-	private final Sprite spriteSettings;
-	private final Sprite spriteTitle;
+    private final Rectangle rectangleTitle;
+    private final Rectangle rectangleTitleScoreTable;
+
+    private static final Color colorViperBlue = new Color(0, 0, 170f / 255f, 1); // blue
+    private static final Color colorViperPurple = new Color(170f / 255f, 0, 1, 1); // purple
+    private final Color colorScaler;
+
+    private final Sprite spriteInfo;
+    private final Sprite[] spritesViperHeads;
+    private final Sprite spriteSettings;
+    private final Sprite spriteTitle;
     private Sprite spriteBadge;
-	private Sprite spriteThere;
-	private Sprite spriteFactory;
-	
-	// score table
-	private ScoreEntry[] scoreEntries;
-	private final StringBuilder stringBuilder;
-	private CharSequence customHighscoreText = "";
-	private final TitleScreenInputProcessor inputHandler;
-	private final InputMultiplexer inputMultiplexer;
-	private final RetroTextButton scrollbarHandle;
-	private boolean fetching;
-	private boolean updating;
-	private float scrollbarCurrentY;
-	private float scrollbarMaximumY;
-	
+    private Sprite spriteThere;
+    private Sprite spriteFactory;
+    private Sprite spriteDownload;
+    private Sprite spriteStar;
+
+    // score table
+    private ScoreEntry[] scoreEntries;
+    private final StringBuilder stringBuilder;
+    private CharSequence customHighscoreText = "";
+    private final TitleScreenInputProcessor inputHandler;
+    private final InputMultiplexer inputMultiplexer;
+    private final RetroTextButton scrollbarHandle;
+    private boolean fetching;
+    private boolean updating;
+    private float scrollbarCurrentY;
+    private float scrollbarMaximumY;
+
     // other
     private final Preferences prefs;
     private final AssetManager assetManager;
-	private final Scaler scaler;
-	private final BitmapFont font;
-	private final KeyboardInputListener keyboardInputListener;
-	private final TitleScreen instance;
+    private final Scaler scaler;
+    private final BitmapFont font;
+    private final KeyboardInputListener keyboardInputListener;
+    private final TitleScreen instance;
 
     // temporary variables
-	private float xOffset;
-	private final float xOffsetMax;
-	private final int paddingFromViewport;
-	private int vSpaceBetweenButtons;
-	private int indexCurrentHeadSprite;
+    private float xOffset;
+    private final float xOffsetMax;
+    private final int paddingFromViewport;
+    private int vSpaceBetweenButtons;
+    private int indexCurrentHeadSprite;
 
-	public TitleScreen(ShapeRenderer shapeRenderer, final FitViewport viewport,
+    // sprite animation
+    private static float scaleMin = 0.9f;
+    private static float scaleMax = 1.1f;
+    private static float period = 1.8f;
+    private static float rotate = 5f;
+
+    public TitleScreen(ShapeRenderer shapeRenderer, final FitViewport viewport,
                        OrthographicCamera camera, AssetManager assetManager, TextureAtlas textureAtlas, BitmapFont font) {
-		this.instance = this;
-		this.shapeRenderer = shapeRenderer;
-		this.camera = camera;
-		this.assetManager = assetManager;
-		this.font = font;
-		this.viewport = viewport;
-		this.prefs = SettingsManager.getInstance().get();
-		this.keyboardInputListener = new KeyboardInputListener(this);
-		this.state = TitleScreenState.ShowMainMenu;
-		this.stringBuilder = new StringBuilder();
-		
-		if (SettingsManager.getInstance().isMusicEnabled())
-			VoraciousViper.getInstance().playMusicFile(true);
+        this.instance = this;
+        this.shapeRenderer = shapeRenderer;
+        this.camera = camera;
+        this.assetManager = assetManager;
+        this.font = font;
+        this.viewport = viewport;
+        this.prefs = SettingsManager.getInstance().get();
+        this.keyboardInputListener = new KeyboardInputListener(this);
+        this.state = TitleScreenState.ShowMainMenu;
+        this.stringBuilder = new StringBuilder();
 
-		paddingFromViewport = 10;
-		int hSpaceBetweenButtons = 10;
-		vSpaceBetweenButtons = 20;
+        if (SettingsManager.getInstance().isMusicEnabled())
+            VoraciousViper.getInstance().playMusicFile(true);
 
-		camera.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2, 0);
-		camera.update();
+        paddingFromViewport = 10;
+        int hSpaceBetweenButtons = 10;
+        vSpaceBetweenButtons = 20;
 
-        if (Config.SHOW_BADGE) { spriteBadge = new Sprite(new Texture("google-play-badge.png")); }
-		spriteTitle = new Sprite(new Texture("title.png"));
-		rectangleTitle = new Rectangle(viewport.getWorldWidth() / 2 - spriteTitle.getWidth() / 2+xOffset, 200, spriteTitle.getWidth(), spriteTitle.getHeight());
-		rectangleTitleScoreTable = new Rectangle(8, viewport.getWorldHeight() - 40, rectangleTitle.width/2, rectangleTitle.height/2);
-		spriteTitle.setBounds(rectangleTitle.x, rectangleTitle.y, rectangleTitle.width, rectangleTitle.height);
-		
-		spriteInfo = textureAtlas.createSprite("Info");
-		spriteSettings = textureAtlas.createSprite("settings");
-		spriteThere = new Sprite(new Texture("there.png"));
-		spriteFactory = new Sprite(new Texture("factory.png"));
-		
-		indexCurrentHeadSprite = 0;
-		spritesViperHeads = new Sprite[6];
-		spritesViperHeads[0] = textureAtlas.createSprite("Head.X.1.Green");
-		spritesViperHeads[1] = textureAtlas.createSprite("Head.X.2.Green");
-		spritesViperHeads[2] = textureAtlas.createSprite("Head.X.1.Purple");
-		spritesViperHeads[3] = textureAtlas.createSprite("Head.X.2.Purple");
-		spritesViperHeads[4] = textureAtlas.createSprite("Head.X.1.Blue");
-		spritesViperHeads[5] = textureAtlas.createSprite("Head.X.2.Blue");
-		
-		stage = new Stage();
-		stage.setViewport(this.viewport);
+        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
+        camera.update();
+
+        if (Config.SHOW_BADGE) {
+            spriteBadge = new Sprite(new Texture("google-play-badge.png"));
+        }
+        spriteTitle = new Sprite(new Texture("title.png"));
+        rectangleTitle = new Rectangle(viewport.getWorldWidth() / 2 - spriteTitle.getWidth() / 2 + xOffset, 200, spriteTitle.getWidth(), spriteTitle.getHeight());
+        rectangleTitleScoreTable = new Rectangle(8, viewport.getWorldHeight() - 40, rectangleTitle.width / 2, rectangleTitle.height / 2);
+        spriteTitle.setBounds(rectangleTitle.x, rectangleTitle.y, rectangleTitle.width, rectangleTitle.height);
+
+        spriteInfo = textureAtlas.createSprite("Info");
+        spriteSettings = textureAtlas.createSprite("settings");
+        spriteThere = new Sprite(new Texture("there.png"));
+        spriteFactory = new Sprite(new Texture("factory.png"));
+        spriteDownload = new Sprite(new Texture("download.png"));
+        spriteStar = new Sprite(new Texture("star.png"));
+
+        indexCurrentHeadSprite = 0;
+        spritesViperHeads = new Sprite[6];
+        spritesViperHeads[0] = textureAtlas.createSprite("Head.X.1.Green");
+        spritesViperHeads[1] = textureAtlas.createSprite("Head.X.2.Green");
+        spritesViperHeads[2] = textureAtlas.createSprite("Head.X.1.Purple");
+        spritesViperHeads[3] = textureAtlas.createSprite("Head.X.2.Purple");
+        spritesViperHeads[4] = textureAtlas.createSprite("Head.X.1.Blue");
+        spritesViperHeads[5] = textureAtlas.createSprite("Head.X.2.Blue");
+
+        stage = new Stage();
+        stage.setViewport(this.viewport);
         Skin skin = new Skin();
-		skin.addRegions(textureAtlas);
+        skin.addRegions(textureAtlas);
 
-		// button to close settings
-		buttonClose = new RetroTextButton(shapeRenderer, 52, 52, font, "X", new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				super.clicked(event, x, y);
-				setState(TitleScreenState.ShowMainMenu);
-			}
-		});
-		buttonClose.setPosition(viewport.getWorldWidth()-buttonClose.getWidth()-vSpaceBetweenButtons,
-				viewport.getWorldHeight()-buttonClose.getHeight()-vSpaceBetweenButtons);
-		buttonClose.setThickness(3);
-		stage.addActor(buttonClose);
+        // button to close settings
+        buttonClose = new RetroTextButton(shapeRenderer, 52, 52, font, "X", new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                setState(TitleScreenState.ShowMainMenu);
+            }
+        });
+        buttonClose.setPosition(viewport.getWorldWidth() - buttonClose.getWidth() - vSpaceBetweenButtons,
+                viewport.getWorldHeight() - buttonClose.getHeight() - vSpaceBetweenButtons);
+        buttonClose.setThickness(3);
+        stage.addActor(buttonClose);
 
-		// button to show about screen
-		buttonSwitchBetweenAboutAndSettings = new RetroTextButton(shapeRenderer, 52, 52, font, "?", new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				super.clicked(event, x, y);
-				if (state.equals(TitleScreenState.ShowSettings)) { // toggle about screen
-					setState(TitleScreenState.ShowAbout);
-				} else {
-					setState(TitleScreenState.ShowSettings);					
-				}
-			}
-		});
-		buttonSwitchBetweenAboutAndSettings.setPosition(buttonClose.getX() - buttonSwitchBetweenAboutAndSettings.getWidth() - hSpaceBetweenButtons, buttonClose.getY());
-		stage.addActor(buttonSwitchBetweenAboutAndSettings);
+        // button to show about screen
+        buttonSwitchBetweenAboutAndSettings = new RetroTextButton(shapeRenderer, 52, 52, font, "?", new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                if (state.equals(TitleScreenState.ShowSettings)) { // toggle about screen
+                    setState(TitleScreenState.ShowAbout);
+                } else {
+                    setState(TitleScreenState.ShowSettings);
+                }
+            }
+        });
+        buttonSwitchBetweenAboutAndSettings.setPosition(buttonClose.getX() - buttonSwitchBetweenAboutAndSettings.getWidth() - hSpaceBetweenButtons,
+                buttonClose.getY());
+        stage.addActor(buttonSwitchBetweenAboutAndSettings);
 
-		// initialize buttons for main menu
-		int buttonSize = 130;
-		buttonsMainMenu = new RetroBundleTextButton[] { new RetroBundleTextButton(shapeRenderer, buttonSize, 100, font,
-				I18NKeys.Singleplayer, new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				super.clicked(event, x, y);
-				VoraciousViper.getInstance().startGame();
-			}
-		}), new RetroBundleTextButton(shapeRenderer, buttonSize, 100, font, I18NKeys.ScoreTable,
-				new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				super.clicked(event, x, y);
-				showScoreTable();
-			}
-		}),
-			new RetroBundleTextButton(shapeRenderer, buttonSize, 100, font, I18NKeys.Settings, new ClickListener() {
-				@Override
-				public void clicked(InputEvent event, float x, float y) {
-					super.clicked(event, x, y);
-					setState(TitleScreenState.ShowSettings);
-				}
-			}),
-			new RetroBundleTextButton(shapeRenderer, buttonSize, 100, font,
-					 I18NKeys.About, new ClickListener() {
-				 @Override
-				 public void touchUp(InputEvent event, float x, float y, int
-				 pointer, int button) {
-					 super.touchUp(event, x, y, pointer, button);
-                     if (Config.SHOW_BADGE) {
-                         setState(TitleScreenState.ShowBadge);
-                     } else {
-                         setState(TitleScreenState.ShowAbout);
-                     }
-				 }
-			 })
-		};
-		for (RetroTextButton textButton : buttonsMainMenu) {
-			textButton.setPosition(paddingFromViewport, paddingFromViewport);
-			textButton.setAlignment(TextAlign.CenterBottom);
-			stage.addActor(textButton);
-		}
+        // button to rate app
+        buttonRate = new RetroTextButton(shapeRenderer, 100, 52, font, "Rate", new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Gdx.net.openURI(URL_TO_PLAY_STORE);
+            }
+        });
+        buttonRate.setPosition(250, buttonSwitchBetweenAboutAndSettings.getY());
+        stage.addActor(buttonRate);
 
-		buttonSize = 52;
+        // button to view the soundtrack
+        buttonSoudtrack = new RetroTextButton(shapeRenderer, 100, 52, font, "Soundtrack", new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Gdx.net.openURI(URL_TO_SOUNDTRACK);
+            }
+        });
+        buttonSoudtrack.setPosition(370, buttonSwitchBetweenAboutAndSettings.getY());
+        stage.addActor(buttonSoudtrack);
 
-		// initialize buttons for settings menu
-		buttonsSettings = new AbstractRetroButton[][] {
-			new RetroImageButton[] {
-					new RetroImageButton(shapeRenderer, buttonSize, buttonSize, skin.getDrawable("flag_usa"),
-							PrefsKeys.Language, Locale.ENGLISH.toString()),
-					new RetroImageButton(shapeRenderer, buttonSize, buttonSize, skin.getDrawable("flag_austria"),
-							PrefsKeys.Language, Locale.GERMAN.toString()) },
-			new RetroImageToggleButton[] {
-					new RetroImageToggleButton(shapeRenderer, buttonSize, buttonSize, skin.getDrawable("music.on"),
-							skin.getDrawable("music.off"), PrefsKeys.Music, true),
-					new RetroImageToggleButton(shapeRenderer, buttonSize, buttonSize, skin.getDrawable("sound.on"),
-							skin.getDrawable("sound.off"), PrefsKeys.Sound, true) },
-			new RetroTextButton[] { new RetroTextButton(shapeRenderer, buttonSize, buttonSize, font,
-					I18NKeys.Playername, new ClickListener() {
-				@Override
-				public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-					super.touchUp(event, x, y, pointer, button);
-					Gdx.input.getTextInput(keyboardInputListener, VoraciousViper.getInstance().getBundle().get(I18NKeys.PleaseEnterYourPlayername),
-							SettingsManager.getInstance().get().getString(PrefsKeys.PlayerName), "");
-				}
-			})},
-			new RetroImageButton[] { new RetroImageButton(shapeRenderer, buttonSize, buttonSize,
-					skin.getDrawable("controls_touchareas"), PrefsKeys.Controls, PrefsKeys.ControlsTouchAreas),
-					new RetroImageButton(shapeRenderer, buttonSize, buttonSize,
-							skin.getDrawable("controls_touchpad"), PrefsKeys.Controls, PrefsKeys.ControlsTouchPad),
-					new RetroImageButton(shapeRenderer, buttonSize, buttonSize,
-							skin.getDrawable("controls_relative"), PrefsKeys.Controls, PrefsKeys.ControlsRelative),
+        // initialize buttons for main menu
+        int buttonSize = 130;
+        buttonsMainMenu = new RetroBundleTextButton[]{new RetroBundleTextButton(shapeRenderer, buttonSize, 100, font,
+                I18NKeys.Singleplayer, new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                VoraciousViper.getInstance().startGame();
+            }
+        }), new RetroBundleTextButton(shapeRenderer, buttonSize, 100, font, I18NKeys.ScoreTable,
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        showScoreTable();
+                    }
+                }),
+                new RetroBundleTextButton(shapeRenderer, buttonSize, 100, font, I18NKeys.Settings, new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        setState(TitleScreenState.ShowSettings);
+                    }
+                }),
+                new RetroBundleTextButton(shapeRenderer, buttonSize, 100, font,
+                        I18NKeys.About, new ClickListener() {
+                    @Override
+                    public void touchUp(InputEvent event, float x, float y, int
+                            pointer, int button) {
+                        super.touchUp(event, x, y, pointer, button);
+                        if (Config.SHOW_BADGE) {
+                            setState(TitleScreenState.ShowBadge);
+                        } else {
+                            setState(TitleScreenState.ShowAbout);
+                        }
+                    }
+                })
+        };
+        for (RetroTextButton textButton : buttonsMainMenu) {
+            textButton.setPosition(paddingFromViewport, paddingFromViewport);
+            textButton.setAlignment(TextAlign.CenterBottom);
+            stage.addActor(textButton);
+        }
+
+        buttonSize = 52;
+
+        // initialize buttons for settings menu
+        buttonsSettings = new AbstractRetroButton[][]{
+                new RetroImageButton[]{
+                        new RetroImageButton(shapeRenderer, buttonSize, buttonSize, skin.getDrawable("flag_usa"),
+                                PrefsKeys.Language, Locale.ENGLISH.toString()),
+                        new RetroImageButton(shapeRenderer, buttonSize, buttonSize, skin.getDrawable("flag_austria"),
+                                PrefsKeys.Language, Locale.GERMAN.toString())},
+                new RetroImageToggleButton[]{
+                        new RetroImageToggleButton(shapeRenderer, buttonSize, buttonSize, skin.getDrawable("music.on"),
+                                skin.getDrawable("music.off"), PrefsKeys.Music, true),
+                        new RetroImageToggleButton(shapeRenderer, buttonSize, buttonSize, skin.getDrawable("sound.on"),
+                                skin.getDrawable("sound.off"), PrefsKeys.Sound, true)},
+                new RetroTextButton[]{new RetroTextButton(shapeRenderer, buttonSize, buttonSize, font,
+                        I18NKeys.Playername, new ClickListener() {
+                    @Override
+                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                        super.touchUp(event, x, y, pointer, button);
+                        Gdx.input.getTextInput(keyboardInputListener, VoraciousViper.getInstance().getBundle().get(I18NKeys.PleaseEnterYourPlayername),
+                                SettingsManager.getInstance().get().getString(PrefsKeys.PlayerName), "");
+                    }
+                })},
+                new RetroImageButton[]{new RetroImageButton(shapeRenderer, buttonSize, buttonSize,
+                        skin.getDrawable("controls_touchareas"), PrefsKeys.Controls, PrefsKeys.ControlsTouchAreas),
+                        new RetroImageButton(shapeRenderer, buttonSize, buttonSize,
+                                skin.getDrawable("controls_touchpad"), PrefsKeys.Controls, PrefsKeys.ControlsTouchPad),
+                        new RetroImageButton(shapeRenderer, buttonSize, buttonSize,
+                                skin.getDrawable("controls_relative"), PrefsKeys.Controls, PrefsKeys.ControlsRelative),
 //					new RetroImageButton(shapeRenderer, buttonSize, buttonSize, skin.getDrawable("controls_swipe"),
 //							PrefsKeys.Controls, PrefsKeys.ControlsSwipe),
 //					new RetroImageButton(shapeRenderer, buttonSize, buttonSize, skin.getDrawable("controls_joystick"),
 //							PrefsKeys.Controls, PrefsKeys.ControlsJoystick)
-			},
-		};
+                },
+        };
 
-		// listeners to change locale in settings manager
-		ClickListener clickListener = new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				super.clicked(event, x, y);
-				VoraciousViper.getInstance().setLocale(prefs.getString(PrefsKeys.Language));
-				updatePlayernameText();
-			}
-		};
-		buttonsSettings[0][0].addListener(clickListener);
-		buttonsSettings[0][1].addListener(clickListener);
-		((RetroTextButton) buttonsSettings[2][0]).setAutoSize(true);
+        // listeners to change locale in settings manager
+        ClickListener clickListener = new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                VoraciousViper.getInstance().setLocale(prefs.getString(PrefsKeys.Language));
+                updatePlayernameText();
+            }
+        };
+        buttonsSettings[0][0].addListener(clickListener);
+        buttonsSettings[0][1].addListener(clickListener);
+        ((RetroTextButton) buttonsSettings[2][0]).setAutoSize(true);
         buttonsSettings[1][0].addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -301,111 +343,114 @@ public class TitleScreen extends ScreenAdapter {
             }
         });
 
-		// equally distribute settings buttons based on the defined buttonSize
-		for (int i = 0; i < buttonsSettings.length; i++) {
-			for (int j = 0; j < buttonsSettings[i].length; j++) {
-				buttonsSettings[i][j].setPosition(vSpaceBetweenButtons + j * (buttonSize + hSpaceBetweenButtons),
-						vSpaceBetweenButtons * 2 + (buttonsSettings.length - 1 - i) * (vSpaceBetweenButtons + buttonSize));
-				int pointer = 0;
-				if (i == 0 || i == 3) {
-					AbstractRetroButton[] adjacentButtons = new AbstractRetroButton[buttonsSettings[i].length - 1];
-					for (int k = 0; k < buttonsSettings[i].length; k++) {
-						if (k != j) {
-							adjacentButtons[pointer++] = buttonsSettings[i][k];
-						}
-					}
-					((RetroImageButton) buttonsSettings[i][j]).setAdjacentButtons(adjacentButtons);
-				}
-				stage.addActor(buttonsSettings[i][j]);
-			}
-		}
-		scaler = new Scaler(0, 1, .003f, true);
-		colorScaler = new Color();
-		xOffsetMax = 80;
-		
-		scrollbarMaximumY = viewport.getWorldHeight() - buttonClose.getHeight() + 1;
-		scrollbarCurrentY = scrollbarMaximumY;
-		
-		inputMultiplexer = new InputMultiplexer();
-		inputHandler = new TitleScreenInputProcessor(this, scrollbarMaximumY, 0);  
-		inputMultiplexer.addProcessor(inputHandler);
-		inputMultiplexer.addProcessor(stage);
-		scrollbarHandle = new RetroTextButton(shapeRenderer, 52, 25, font, "", new ClickListener() {
+        // equally distribute settings buttons based on the defined buttonSize
+        for (int i = 0; i < buttonsSettings.length; i++) {
+            for (int j = 0; j < buttonsSettings[i].length; j++) {
+                buttonsSettings[i][j].setPosition(vSpaceBetweenButtons + j * (buttonSize + hSpaceBetweenButtons),
+                        vSpaceBetweenButtons * 2 + (buttonsSettings.length - 1 - i) * (vSpaceBetweenButtons + buttonSize));
+                int pointer = 0;
+                if (i == 0 || i == 3) {
+                    AbstractRetroButton[] adjacentButtons = new AbstractRetroButton[buttonsSettings[i].length - 1];
+                    for (int k = 0; k < buttonsSettings[i].length; k++) {
+                        if (k != j) {
+                            adjacentButtons[pointer++] = buttonsSettings[i][k];
+                        }
+                    }
+                    ((RetroImageButton) buttonsSettings[i][j]).setAdjacentButtons(adjacentButtons);
+                }
+                stage.addActor(buttonsSettings[i][j]);
+            }
+        }
+        scaler = new Scaler(0, 1, .003f, true);
+        colorScaler = new Color();
+        xOffsetMax = 80;
 
-		});
-		scrollbarHandle.setX(viewport.getWorldWidth() - scrollbarHandle.getWidth());
-		scrollbarHandle.setThickness(3);
-		stage.addActor(scrollbarHandle);
-	}
+        scrollbarMaximumY = viewport.getWorldHeight() - buttonClose.getHeight() + 1;
+        scrollbarCurrentY = scrollbarMaximumY;
 
-	public void setUpdating(boolean updating) {
-		this.updating = updating;
-	}
+        inputMultiplexer = new InputMultiplexer();
+        inputHandler = new TitleScreenInputProcessor(this, scrollbarMaximumY, 0);
+        inputMultiplexer.addProcessor(inputHandler);
+        inputMultiplexer.addProcessor(stage);
+        scrollbarHandle = new RetroTextButton(shapeRenderer, 52, 25, font, "", new ClickListener() {
 
-	public void showScoreTable() {
-		if (SettingsManager.getInstance().getPlayerName() == null || SettingsManager.getInstance().getPlayerName().length() == 0) {
-			VoraciousViper.getInstance().toast(VoraciousViper.getInstance().getBundle().get(I18NKeys.SetYourPlayernameToSeeHighscores), true);
-		}
-		customHighscoreText = "";
-		fetching = true;
-		if (scoreEntries == null) {
-			scoreEntries = SettingsManager.getInstance().getScoreEntries();
-		}
-		Utils.async(new Runnable() {
-			@Override
-			public void run() {
-				HttpServer.fetchHighscores(instance,
-						SettingsManager.getInstance().getPlayerId(),
-						SettingsManager.getInstance().getPlayerName(),
-						SettingsManager.getInstance().getNumSteps(),
-						SettingsManager.getInstance().getLevel(),
-						SettingsManager.getInstance().getScore(),
-						VoraciousViper.getInstance().getVersionCode(), false);
-			}
-		});
-		setState(TitleScreenState.ShowScoreTable);
-	}
+        });
+        scrollbarHandle.setX(viewport.getWorldWidth() - scrollbarHandle.getWidth());
+        scrollbarHandle.setThickness(3);
+        stage.addActor(scrollbarHandle);
+    }
 
-	public void setState(TitleScreenState state) {
-		this.state = state;
+    public void setUpdating(boolean updating) {
+        this.updating = updating;
+    }
+
+    public void showScoreTable() {
+        if (SettingsManager.getInstance().getPlayerName() == null || SettingsManager.getInstance().getPlayerName().length() == 0) {
+            VoraciousViper.getInstance().toast(VoraciousViper.getInstance().getBundle().get(I18NKeys.SetYourPlayernameToSeeHighscores), true);
+        }
+        customHighscoreText = "";
+        fetching = true;
+        if (scoreEntries == null) {
+            scoreEntries = SettingsManager.getInstance().getScoreEntries();
+        }
+        Utils.async(new Runnable() {
+            @Override
+            public void run() {
+                HttpServer.fetchHighscores(instance,
+                        SettingsManager.getInstance().getPlayerId(),
+                        SettingsManager.getInstance().getPlayerName(),
+                        SettingsManager.getInstance().getNumSteps(),
+                        SettingsManager.getInstance().getLevel(),
+                        SettingsManager.getInstance().getScore(),
+                        VoraciousViper.getInstance().getVersionCode(), false);
+            }
+        });
+        setState(TitleScreenState.ShowScoreTable);
+    }
+
+    public void setState(TitleScreenState state) {
+        this.state = state;
         if (state.equals(TitleScreenState.ShowSettings)) {
             synchronizeCheckedStatesOfSettingsButtons();
         }
-	}
-	
-	private void update(float delta) {
-		inputHandler.update();
-		assetManager.update();
-		
-		// offset sprites to the right in settings screen
-		if (state.equals(TitleScreenState.ShowSettings)) {
-			if (xOffset < xOffsetMax) { // increase xOffset
-				xOffset = Math.min(xOffsetMax, xOffset + (int)((xOffsetMax - xOffset)/8));
-			}
-		} else {
-			if (xOffset > 0) {  // decrease xOffset
-				xOffset = Math.max(0, xOffset - (int)(xOffset/8));
-			}
-		}
+    }
+
+    private void update(float delta) {
+        elapsedTime += delta;
+        inputHandler.update();
+        assetManager.update();
+
+        // offset sprites to the right in settings screen
+        if (state.equals(TitleScreenState.ShowSettings)) {
+            if (xOffset < xOffsetMax) { // increase xOffset
+                xOffset = Math.min(xOffsetMax, xOffset + (int) ((xOffsetMax - xOffset) / 8));
+            }
+        } else {
+            if (xOffset > 0) {  // decrease xOffset
+                xOffset = Math.max(0, xOffset - (int) (xOffset / 8));
+            }
+        }
         float xOffsetQuotient = xOffset / xOffsetMax;
 
-		// color transition for viper's eyes
-		scaler.update();
-		stage.act(delta);
-		
-		float red = Math.abs((scaler.get() * colorViperBlue.r) + ((1 - scaler.get()) * colorViperPurple.r));
-		float green = Math.abs((scaler.get() * colorViperBlue.g) + ((1 - scaler.get()) * colorViperPurple.g));
-		float blue = Math.abs((scaler.get() * colorViperBlue.b) + ((1 - scaler.get()) * colorViperPurple.b));
+        // color transition for viper's eyes
+        scaler.update();
+        stage.act(delta);
 
-		colorScaler.set(red, green, blue, 1f);
-		
-		buttonClose.setVisible(!state.equals(TitleScreenState.ShowMainMenu));
-		buttonSwitchBetweenAboutAndSettings.setVisible(!state.equals(TitleScreenState.ShowMainMenu) && !state.equals(TitleScreenState.ShowScoreTable));
+        float red = Math.abs((scaler.get() * colorViperBlue.r) + ((1 - scaler.get()) * colorViperPurple.r));
+        float green = Math.abs((scaler.get() * colorViperBlue.g) + ((1 - scaler.get()) * colorViperPurple.g));
+        float blue = Math.abs((scaler.get() * colorViperBlue.b) + ((1 - scaler.get()) * colorViperPurple.b));
 
-		// buttons in main menu
-		int hSpace = 15;
-		float x = (viewport.getWorldWidth() - buttonsMainMenu.length * buttonsMainMenu[0].getWidth()
-				- ((buttonsMainMenu.length - 1) * hSpace)) / 2;
+        colorScaler.set(red, green, blue, 1f);
+
+        buttonClose.setVisible(!state.equals(TitleScreenState.ShowMainMenu));
+        buttonSwitchBetweenAboutAndSettings.setVisible(!state.equals(TitleScreenState.ShowMainMenu) && !state.equals(TitleScreenState.ShowScoreTable));
+        buttonRate.setVisible(state.equals(TitleScreenState.ShowAbout));
+        buttonSoudtrack.setVisible(state.equals(TitleScreenState.ShowAbout));
+
+        // buttons in main menu
+        int hSpace = 15;
+        float x = (viewport.getWorldWidth() - buttonsMainMenu.length * buttonsMainMenu[0].getWidth()
+                - ((buttonsMainMenu.length - 1) * hSpace)) / 2;
         for (RetroBundleTextButton aButtonsMainMenu : buttonsMainMenu) {
             aButtonsMainMenu.setVisible(state.equals(TitleScreenState.ShowMainMenu));
             aButtonsMainMenu.setPosition(x + xOffsetQuotient * 100, 70);
@@ -413,338 +458,349 @@ public class TitleScreen extends ScreenAdapter {
             x += aButtonsMainMenu.getWidth() + hSpace;
         }
 
-		// buttons in settings menu
-		x = paddingFromViewport;
-		for (AbstractRetroButton[] buttons : buttonsSettings) {
-			for (AbstractRetroButton button : buttons) {
-				button.setX(x + (xOffsetQuotient * 100) - 90);
-				button.setVisible(state.equals(TitleScreenState.ShowSettings));
-				button.setAlpha(xOffsetQuotient);
-				x += button.getWidth() + hSpace;
-			}
-			x = paddingFromViewport;
-		}
-		
-		// animate shrinking of title sprite when going into / out from the score table
-		float time = 15;
-		if (state.equals(TitleScreenState.ShowScoreTable)) {
-			spriteTitle.setBounds(
-					Math.max(rectangleTitleScoreTable.x, spriteTitle.getX() - Math.abs(rectangleTitle.x - rectangleTitleScoreTable.x)/time),
-					Math.min(rectangleTitleScoreTable.y, spriteTitle.getY() + Math.abs(rectangleTitleScoreTable.y - rectangleTitle.y)/time),
-					Math.max(rectangleTitleScoreTable.width, spriteTitle.getWidth() - Math.abs(rectangleTitleScoreTable.width - rectangleTitle.width)/time),
-					Math.max(rectangleTitleScoreTable.height, spriteTitle.getHeight() - Math.abs(rectangleTitleScoreTable.height - rectangleTitle.height)/time)
-			);
-			for (Sprite spriteHead : spritesViperHeads) {
-				spriteHead.setPosition(spriteTitle.getX() + spriteTitle.getWidth() * .376f, spriteTitle.getY() + spriteTitle.getHeight()*.77f);
-				spriteHead.setSize(Math.max(24/2, spriteHead.getWidth() - 12/time), Math.max(18/2, spriteHead.getHeight() - 9/time));
-			}
-			buttonClose.setPosition(viewport.getWorldWidth()-buttonClose.getWidth(),
-					viewport.getWorldHeight()-buttonClose.getHeight());
-		} else {
-			spriteTitle.setBounds(
-					Math.min(rectangleTitle.x + xOffset, spriteTitle.getX() + xOffset + Math.abs(rectangleTitle.x - rectangleTitleScoreTable.x)/time),
-					Math.max(rectangleTitle.y, spriteTitle.getY() - Math.abs(rectangleTitleScoreTable.y - rectangleTitle.y)/time),
-					Math.min(rectangleTitle.width, spriteTitle.getWidth() + Math.abs(rectangleTitleScoreTable.width - rectangleTitle.width)/time),
-					Math.min(rectangleTitle.height, spriteTitle.getHeight() + Math.abs(rectangleTitleScoreTable.height - rectangleTitle.height)/time)
-			);
-			for (Sprite spriteHead : spritesViperHeads) {
-				spriteHead.setPosition(spriteTitle.getX() + spriteTitle.getWidth() * .376f, spriteTitle.getY() + spriteTitle.getHeight()*.77f);
-				spriteHead.setSize(Math.min(24, spriteHead.getWidth() + 12/time), Math.min(18, spriteHead.getHeight() + 9/time));
-			}
-			buttonClose.setPosition(viewport.getWorldWidth()-buttonClose.getWidth()-vSpaceBetweenButtons,
-					viewport.getWorldHeight()-buttonClose.getHeight()-vSpaceBetweenButtons);
-		}
-		scrollbarHandle.setY(Math.min(scrollbarMaximumY-buttonClose.getHeight()/2, scrollbarCurrentY)); // limit top line
-		scrollbarHandle.setVisible(state.equals(TitleScreenState.ShowScoreTable) && !fetching && scoreEntries != null);
-	
-		 // animate the viper head that represents the dot on the 'i' of Vorac_i_ous in the title image
-		if (indexCurrentHeadSprite % 2 == 0 && System.currentTimeMillis() % 1000 < 500) {
-			indexCurrentHeadSprite++;
-		} else if (indexCurrentHeadSprite % 2 == 1 && System.currentTimeMillis() % 1000 > 500) {
-			indexCurrentHeadSprite--;
-		}
-		if (Gdx.input.justTouched()) {
-			Vector2 touchCoordinates = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-			if (Utils.within(touchCoordinates, spritesViperHeads[0])) {
-				VoraciousViper.getInstance().playSound("audio/sounds/lose.ogg");
-				indexCurrentHeadSprite = (indexCurrentHeadSprite + ((indexCurrentHeadSprite % 2 == 0) ? 2 : 1)) % (spritesViperHeads.length);
-			}
-		}
-	}
+        // buttons in settings menu
+        x = paddingFromViewport;
+        for (AbstractRetroButton[] buttons : buttonsSettings) {
+            for (AbstractRetroButton button : buttons) {
+                button.setX(x + (xOffsetQuotient * 100) - 90);
+                button.setVisible(state.equals(TitleScreenState.ShowSettings));
+                button.setAlpha(xOffsetQuotient);
+                x += button.getWidth() + hSpace;
+            }
+            x = paddingFromViewport;
+        }
+
+        // animate shrinking of title sprite when going into / out from the score table
+        float time = 15;
+        if (state.equals(TitleScreenState.ShowScoreTable)) {
+            spriteTitle.setBounds(
+                    Math.max(rectangleTitleScoreTable.x, spriteTitle.getX() - Math.abs(rectangleTitle.x - rectangleTitleScoreTable.x) / time),
+                    Math.min(rectangleTitleScoreTable.y, spriteTitle.getY() + Math.abs(rectangleTitleScoreTable.y - rectangleTitle.y) / time),
+                    Math.max(rectangleTitleScoreTable.width, spriteTitle.getWidth() - Math.abs(rectangleTitleScoreTable.width - rectangleTitle.width) / time),
+                    Math.max(rectangleTitleScoreTable.height, spriteTitle.getHeight() - Math.abs(rectangleTitleScoreTable.height - rectangleTitle.height) / time)
+            );
+            for (Sprite spriteHead : spritesViperHeads) {
+                spriteHead.setPosition(spriteTitle.getX() + spriteTitle.getWidth() * .376f, spriteTitle.getY() + spriteTitle.getHeight() * .77f);
+                spriteHead.setSize(Math.max(24 / 2, spriteHead.getWidth() - 12 / time), Math.max(18 / 2, spriteHead.getHeight() - 9 / time));
+            }
+            buttonClose.setPosition(viewport.getWorldWidth() - buttonClose.getWidth(),
+                    viewport.getWorldHeight() - buttonClose.getHeight());
+        } else {
+            spriteTitle.setBounds(
+                    Math.min(rectangleTitle.x + xOffset, spriteTitle.getX() + xOffset + Math.abs(rectangleTitle.x - rectangleTitleScoreTable.x) / time),
+                    Math.max(rectangleTitle.y, spriteTitle.getY() - Math.abs(rectangleTitleScoreTable.y - rectangleTitle.y) / time),
+                    Math.min(rectangleTitle.width, spriteTitle.getWidth() + Math.abs(rectangleTitleScoreTable.width - rectangleTitle.width) / time),
+                    Math.min(rectangleTitle.height, spriteTitle.getHeight() + Math.abs(rectangleTitleScoreTable.height - rectangleTitle.height) / time)
+            );
+            for (Sprite spriteHead : spritesViperHeads) {
+                spriteHead.setPosition(spriteTitle.getX() + spriteTitle.getWidth() * .376f, spriteTitle.getY() + spriteTitle.getHeight() * .77f);
+                spriteHead.setSize(Math.min(24, spriteHead.getWidth() + 12 / time), Math.min(18, spriteHead.getHeight() + 9 / time));
+            }
+            buttonClose.setPosition(viewport.getWorldWidth() - buttonClose.getWidth() - vSpaceBetweenButtons,
+                    viewport.getWorldHeight() - buttonClose.getHeight() - vSpaceBetweenButtons);
+        }
+        scrollbarHandle.setY(Math.min(scrollbarMaximumY - buttonClose.getHeight() / 2, scrollbarCurrentY)); // limit top line
+        scrollbarHandle.setVisible(state.equals(TitleScreenState.ShowScoreTable) && !fetching && scoreEntries != null);
+
+        // animate the viper head that represents the dot on the 'i' of Vorac_i_ous in the title image
+        if (indexCurrentHeadSprite % 2 == 0 && System.currentTimeMillis() % 1000 < 500) {
+            indexCurrentHeadSprite++;
+        } else if (indexCurrentHeadSprite % 2 == 1 && System.currentTimeMillis() % 1000 > 500) {
+            indexCurrentHeadSprite--;
+        }
+        if (Gdx.input.justTouched()) {
+            Vector2 touchCoordinates = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+            if (Utils.within(touchCoordinates, spritesViperHeads[0])) {
+                VoraciousViper.getInstance().playSound("audio/sounds/lose.ogg");
+                indexCurrentHeadSprite = (indexCurrentHeadSprite + ((indexCurrentHeadSprite % 2 == 0) ? 2 : 1)) % (spritesViperHeads.length);
+            }
+        }
+    }
 
     @Override
-	public void render(float delta) {
-		super.render(delta);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    public void render(float delta) {
+        super.render(delta);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		update(delta);
-		
-		// draw gradient background
-		shapeRenderer.setProjectionMatrix(camera.combined);
-		shapeRenderer.begin(ShapeType.Filled);
-		shapeRenderer.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight(), Color.BLACK, Color.BLACK, colorScaler, colorScaler);
-		shapeRenderer.end();
-		
-		stage.getBatch().setProjectionMatrix(camera.combined);
-		stage.getBatch().begin();
+        update(delta);
 
-		if (state.equals(TitleScreenState.ShowSettings)) { // button descriptions
-			font.setColor(Color.WHITE);
-			font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.ControlsBy) + " "
-					+ VoraciousViper.getInstance().getBundle().get(prefs.getString(PrefsKeys.Controls)),
-					buttonsSettings[0][0].getX(), 25);
-		}
-        else if (state.equals(TitleScreenState.ShowAbout)) { // about text
-			font.setColor(1, 1, 1, 1 - xOffset/xOffsetMax);
-			float xOffsetAboutText = paddingFromViewport + xOffset + (xOffset/xOffsetMax) * 50;
-			font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().format(I18NKeys.AboutText, VoraciousViper.getInstance().getVersionName()),
-					xOffsetAboutText, 180);
-			
-			spriteThere.setAlpha(1 - xOffset/xOffsetMax);
-			spriteThere.setScale(.4f);
-			spriteThere.setPosition(xOffsetAboutText+81, 105);
-			spriteThere.draw(stage.getBatch());
-			
-			spriteFactory.setAlpha(1 - xOffset/xOffsetMax);
-			spriteFactory.setScale(.4f);
-			spriteFactory.setPosition(xOffsetAboutText+125, spriteThere.getY());
-			spriteFactory.draw(stage.getBatch());
-		}
-		
-		if (!state.equals(TitleScreenState.ShowScoreTable)) {
-		font.setColor(Color.GRAY);
-			if (state.equals(TitleScreenState.ShowMainMenu)) {
-				font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.CopyrightText), 150, 40);
-			}
-			font.setColor(Color.LIGHT_GRAY);
-			font.draw(stage.getBatch(),
-					VoraciousViper.getInstance().getBundle().get(I18NKeys.Version) +
-							" " + VoraciousViper.getInstance().getVersionName(),
-							spriteTitle.getX() + spriteTitle.getWidth() - 98,
-							spriteTitle.getY() + 5);
-		}
+        // draw gradient background
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeType.Filled);
+        shapeRenderer.rect(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight(), Color.BLACK, Color.BLACK, colorScaler, colorScaler);
+        shapeRenderer.end();
+
+        stage.getBatch().setProjectionMatrix(camera.combined);
+        stage.getBatch().begin();
+
+        if (state.equals(TitleScreenState.ShowSettings)) { // button descriptions
+            font.setColor(Color.WHITE);
+            font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.ControlsBy) + " "
+                            + VoraciousViper.getInstance().getBundle().get(prefs.getString(PrefsKeys.Controls)),
+                    buttonsSettings[0][0].getX(), 25);
+        } else if (state.equals(TitleScreenState.ShowAbout)) { // about text
+            font.setColor(1, 1, 1, 1 - xOffset / xOffsetMax);
+            float xOffsetAboutText = paddingFromViewport + xOffset + (xOffset / xOffsetMax) * 50;
+            font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().format(I18NKeys.AboutText, VoraciousViper.getInstance().getVersionName()),
+                    xOffsetAboutText, 180);
+
+            spriteThere.setAlpha(1 - xOffset / xOffsetMax);
+            spriteThere.setScale(.4f);
+            spriteThere.setPosition(xOffsetAboutText + 81, 105);
+            spriteThere.draw(stage.getBatch());
+
+            spriteFactory.setAlpha(1 - xOffset / xOffsetMax);
+            spriteFactory.setScale(.4f);
+            spriteFactory.setPosition(xOffsetAboutText + 125, spriteThere.getY());
+            spriteFactory.draw(stage.getBatch());
+        }
+
+        if (!state.equals(TitleScreenState.ShowScoreTable)) {
+            font.setColor(Color.GRAY);
+            if (state.equals(TitleScreenState.ShowMainMenu)) {
+                font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.CopyrightText), 150, 40);
+            }
+            font.setColor(Color.LIGHT_GRAY);
+            font.draw(stage.getBatch(),
+                    VoraciousViper.getInstance().getBundle().get(I18NKeys.Version) +
+                            " " + VoraciousViper.getInstance().getVersionName(),
+                    spriteTitle.getX() + spriteTitle.getWidth() - 98,
+                    spriteTitle.getY() + 5);
+        }
 
         if (Config.SHOW_BADGE) {
-        	spriteThere.setScale(.5f, .5f);
-        	spriteThere.setPosition(335, 105);
-        	spriteThere.draw(stage.getBatch());
-        	
-        	spriteFactory.setScale(.5f, .5f);
-        	spriteFactory.setPosition(spriteThere.getX() + 65, spriteThere.getY());
-        	spriteFactory.draw(stage.getBatch());
-        	
-        	spriteBadge.setScale(.5f, .5f);
-        	spriteBadge.setPosition(-100, 40);
+            spriteThere.setScale(.5f, .5f);
+            spriteThere.setPosition(335, 105);
+            spriteThere.draw(stage.getBatch());
+
+            spriteFactory.setScale(.5f, .5f);
+            spriteFactory.setPosition(spriteThere.getX() + 65, spriteThere.getY());
+            spriteFactory.draw(stage.getBatch());
+
+            spriteBadge.setScale(.5f, .5f);
+            spriteBadge.setPosition(-100, 40);
             spriteBadge.draw(stage.getBatch());
         } else {
             stage.getBatch().end();
             stage.draw();
             stage.getBatch().begin();
-    		if (state.equals(TitleScreenState.ShowMainMenu)) {
-    			renderMainMenuButtons(); // draw image captions on main menu buttons
-    		}
-    		else if (state.equals(TitleScreenState.ShowScoreTable)) {
-    			renderScoreTable();
-    		}
+            if (state.equals(TitleScreenState.ShowMainMenu)) {
+                renderMainMenuButtons(); // draw image captions on main menu buttons
+            } else if (state.equals(TitleScreenState.ShowScoreTable)) {
+                renderScoreTable();
+            } else if (state.equals(TitleScreenState.ShowAbout)) {
+                stage.getBatch().draw(spriteDownload, buttonSoudtrack.getX() + buttonSoudtrack.getWidth() - 20,
+                        buttonSoudtrack.getY() + buttonSoudtrack.getHeight() - 20, 0, 0,
+                        spriteDownload.getWidth() / 2f, spriteDownload.getHeight() / 2f,
+                        Utils.oscilliate(elapsedTime, scaleMin, scaleMax, period),
+                        Utils.oscilliate(elapsedTime, scaleMin, scaleMax, -period),
+                        Utils.oscilliate(elapsedTime, -rotate, rotate, period));
+                stage.getBatch().draw(spriteStar, buttonRate.getX() + buttonRate.getWidth() - 20,
+                        buttonRate.getY() + buttonRate.getHeight() - 20, 0, 0,
+                        spriteStar.getWidth() / 2f, spriteStar.getHeight() / 2f,
+                        Utils.oscilliate(elapsedTime, scaleMin, scaleMax, period),
+                        Utils.oscilliate(elapsedTime, scaleMin, scaleMax, -period),
+                        Utils.oscilliate(elapsedTime, -rotate, rotate, period));
+            }
         }
-        
-		spriteTitle.draw(stage.getBatch());
-		spritesViperHeads[indexCurrentHeadSprite].draw(stage.getBatch()); // dot on the 'i' of Vorac_i_ous in the title image
-		
-		if (updating) {
-			VoraciousViper.getInstance().getFadeSprite().setBounds(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
-			VoraciousViper.getInstance().getFadeSprite().setAlpha(.8f);
-			VoraciousViper.getInstance().getFadeSprite().draw(stage.getBatch());
-			font.setColor(Color.WHITE);
-			String updating = VoraciousViper.getInstance().getBundle().get(I18NKeys.Updating) + "...";
-			font.draw(stage.getBatch(), updating,
-					viewport.getWorldWidth()/2-Utils.getFontWidth(updating, font)/2,
-					viewport.getWorldHeight()/2-Utils.getFontHeight(updating, font)/2);
-		}
-		
-		stage.getBatch().end();
-	}
 
-	private void renderMainMenuButtons() {
-		stage.getBatch().draw(spritesViperHeads[1],
-				buttonsMainMenu[0].getX() + buttonsMainMenu[0].getWidth() / 2 - 12,
-				buttonsMainMenu[0].getY() + buttonsMainMenu[0].getHeight() / 2
-				- (buttonsMainMenu[0].isPressed() ? 2 : 0));
+        spriteTitle.draw(stage.getBatch());
+        spritesViperHeads[indexCurrentHeadSprite].draw(stage.getBatch()); // dot on the 'i' of Vorac_i_ous in the title image
 
-		int diff = 7;
-		stage.getBatch().draw(spritesViperHeads[5],
-				buttonsMainMenu[1].getX() + buttonsMainMenu[1].getWidth() / 2 - 12
-				+ diff * 2,
-				buttonsMainMenu[1].getY() + buttonsMainMenu[0].getHeight() / 2 + diff
-				- (buttonsMainMenu[1].isPressed() ? 2 : 0));
-		
-		stage.getBatch().draw(spritesViperHeads[3],
-				buttonsMainMenu[1].getX() + buttonsMainMenu[1].getWidth() / 2 - 12,
-				buttonsMainMenu[1].getY() + buttonsMainMenu[0].getHeight() / 2
-				- (buttonsMainMenu[1].isPressed() ? 2 : 0));
-		
-		stage.getBatch().draw(spritesViperHeads[1],
-				buttonsMainMenu[1].getX() + buttonsMainMenu[1].getWidth() / 2 - 12
-				- diff * 2,
-				buttonsMainMenu[1].getY() + buttonsMainMenu[0].getHeight() / 2 - diff
-				- (buttonsMainMenu[1].isPressed() ? 2 : 0));
+        if (updating) {
+            VoraciousViper.getInstance().getFadeSprite().setBounds(0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            VoraciousViper.getInstance().getFadeSprite().setAlpha(.8f);
+            VoraciousViper.getInstance().getFadeSprite().draw(stage.getBatch());
+            font.setColor(Color.WHITE);
+            String updating = VoraciousViper.getInstance().getBundle().get(I18NKeys.Updating) + "...";
+            font.draw(stage.getBatch(), updating,
+                    viewport.getWorldWidth() / 2 - Utils.getFontWidth(updating, font) / 2,
+                    viewport.getWorldHeight() / 2 - Utils.getFontHeight(updating, font) / 2);
+        }
 
-		stage.getBatch().draw(spriteSettings,
-				buttonsMainMenu[2].getX() + buttonsMainMenu[2].getWidth() / 2 - 17,
-				buttonsMainMenu[2].getY() + 42
-				- (buttonsMainMenu[2].isPressed() ? 2 : 0));
-		
-		stage.getBatch().draw(spriteInfo,
-				buttonsMainMenu[3].getX() + buttonsMainMenu[3].getWidth() / 2 - spriteSettings.getWidth() / 2,
-				buttonsMainMenu[3].getY() + buttonsMainMenu[3].getHeight() / 2 - spriteSettings.getHeight() / 4
-				- (buttonsMainMenu[3].isPressed() ? 2 : 0));
-	}
+        stage.getBatch().end();
+    }
 
-	private void renderScoreTable() {
-		float xOffsetScoreTable = (spriteTitle.getX() - rectangleTitleScoreTable.x);
-		
-		font.setColor(Color.YELLOW);
-		font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.ViviTopScoreTable),
-				xOffsetScoreTable + 240, viewport.getWorldHeight()-20);
+    private void renderMainMenuButtons() {
+        stage.getBatch().draw(spritesViperHeads[1],
+                buttonsMainMenu[0].getX() + buttonsMainMenu[0].getWidth() / 2 - 12,
+                buttonsMainMenu[0].getY() + buttonsMainMenu[0].getHeight() / 2
+                        - (buttonsMainMenu[0].isPressed() ? 2 : 0));
 
-		font.setColor(Color.LIGHT_GRAY);
-		font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.Name), xOffsetScoreTable+46, viewport.getWorldHeight()-40);
-		font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.Date), xOffsetScoreTable+240, viewport.getWorldHeight()-40);
-		font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.Steps), xOffsetScoreTable+390, viewport.getWorldHeight()-40);
-		font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.Level), xOffsetScoreTable+460, viewport.getWorldHeight()-40);
-		font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.Score), xOffsetScoreTable+510, viewport.getWorldHeight()-40);
-		
-		font.setColor(Color.WHITE);
-		if (scoreEntries != null) {
-			for (int i = 0; i < scoreEntries.length; i++) {
-				if (scoreEntries[i] == null) {
-					continue;
-				}
-				font.setColor(scoreEntries[i].getId().equals(SettingsManager.getInstance().getPlayerId()) ?
-						new Color(0, 1, 0, fetching ? .5f : 1) : new Color(1, 1, 1, fetching ? .5f : 1));
-				float y = (scrollbarMaximumY - i * Config.LINE_HEIGHT_HIGHSCORES + inputHandler.getDeltaY());
-				if (y > 0 && y <= scrollbarMaximumY) { // lines disappear when having y above topY and below 0
+        int diff = 7;
+        stage.getBatch().draw(spritesViperHeads[5],
+                buttonsMainMenu[1].getX() + buttonsMainMenu[1].getWidth() / 2 - 12
+                        + diff * 2,
+                buttonsMainMenu[1].getY() + buttonsMainMenu[0].getHeight() / 2 + diff
+                        - (buttonsMainMenu[1].isPressed() ? 2 : 0));
 
-					// name
-					stringBuilder.append(Utils.padLeft(i + 1, 3))
-							.append(". ")
-							.append(scoreEntries[i].getName().trim().length() == 0 ? VoraciousViper.getInstance().getBundle().get(I18NKeys.Unknown) : scoreEntries[i].getName());
-					font.draw(stage.getBatch(), stringBuilder, xOffsetScoreTable + 10, y);
-					stringBuilder.setLength(0);
+        stage.getBatch().draw(spritesViperHeads[3],
+                buttonsMainMenu[1].getX() + buttonsMainMenu[1].getWidth() / 2 - 12,
+                buttonsMainMenu[1].getY() + buttonsMainMenu[0].getHeight() / 2
+                        - (buttonsMainMenu[1].isPressed() ? 2 : 0));
 
-					// date
-					font.draw(stage.getBatch(), scoreEntries[i].getDate(), xOffsetScoreTable+240, y);
+        stage.getBatch().draw(spritesViperHeads[1],
+                buttonsMainMenu[1].getX() + buttonsMainMenu[1].getWidth() / 2 - 12
+                        - diff * 2,
+                buttonsMainMenu[1].getY() + buttonsMainMenu[0].getHeight() / 2 - diff
+                        - (buttonsMainMenu[1].isPressed() ? 2 : 0));
 
-					// numSteps
-					font.draw(stage.getBatch(), scoreEntries[i].getNumSteps() + "", xOffsetScoreTable+390, y);
-					
-					// level
-					font.draw(stage.getBatch(), stringBuilder.append(scoreEntries[i].getLevel()), xOffsetScoreTable+460, y);
-					stringBuilder.setLength(0);
+        stage.getBatch().draw(spriteSettings,
+                buttonsMainMenu[2].getX() + buttonsMainMenu[2].getWidth() / 2 - 17,
+                buttonsMainMenu[2].getY() + 42
+                        - (buttonsMainMenu[2].isPressed() ? 2 : 0));
 
-					// score
-					font.draw(stage.getBatch(), stringBuilder.append(scoreEntries[i].getScore()), xOffsetScoreTable+510, y);
+        stage.getBatch().draw(spriteInfo,
+                buttonsMainMenu[3].getX() + buttonsMainMenu[3].getWidth() / 2 - spriteSettings.getWidth() / 2,
+                buttonsMainMenu[3].getY() + buttonsMainMenu[3].getHeight() / 2 - spriteSettings.getHeight() / 4
+                        - (buttonsMainMenu[3].isPressed() ? 2 : 0));
+    }
 
-					stringBuilder.setLength(0);
-				}
-			}
-		} else {
-			font.draw(stage.getBatch(), customHighscoreText, xOffsetScoreTable+10, scrollbarMaximumY);
-		}
-		if (fetching) {
-			font.setColor(Color.WHITE);
-			String fetching = VoraciousViper.getInstance().getBundle().get(I18NKeys.Fetching) + "...";
-			font.draw(stage.getBatch(), fetching, 
-					viewport.getWorldWidth()/2-Utils.getFontWidth(fetching, font)/2+xOffsetScoreTable,
-					viewport.getWorldHeight()/2-Utils.getFontHeight(fetching, font)/2);
-		}
-	}
+    private void renderScoreTable() {
+        float xOffsetScoreTable = (spriteTitle.getX() - rectangleTitleScoreTable.x);
 
-	@Override
-	public void show() {
-		super.show();
-		camera.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2, 0);
-		camera.update();
-		xOffset = 0;
-		Gdx.input.setCatchBackKey(true);
-		Gdx.input.setInputProcessor(inputMultiplexer);
-	}
+        font.setColor(Color.YELLOW);
+        font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.ViviTopScoreTable),
+                xOffsetScoreTable + 240, viewport.getWorldHeight() - 20);
 
-	@Override
-	public void resize(int width, int height) {
-		viewport.update(width, height);
-	}
+        font.setColor(Color.LIGHT_GRAY);
+        font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.Name), xOffsetScoreTable + 46, viewport.getWorldHeight() - 40);
+        font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.Date), xOffsetScoreTable + 240, viewport.getWorldHeight() - 40);
+        font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.Steps), xOffsetScoreTable + 390, viewport.getWorldHeight() - 40);
+        font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.Level), xOffsetScoreTable + 460, viewport.getWorldHeight() - 40);
+        font.draw(stage.getBatch(), VoraciousViper.getInstance().getBundle().get(I18NKeys.Score), xOffsetScoreTable + 510, viewport.getWorldHeight() - 40);
 
-	private void synchronizeCheckedStatesOfSettingsButtons() {
-		Preferences prefs = SettingsManager.getInstance().get();
-		buttonsSettings[0][0].setChecked(prefs.getString(PrefsKeys.Language).equals(Locale.ENGLISH.toString()));
-		buttonsSettings[0][1].setChecked(prefs.getString(PrefsKeys.Language).equals(Locale.GERMAN.toString()));
+        font.setColor(Color.WHITE);
+        if (scoreEntries != null) {
+            for (int i = 0; i < scoreEntries.length; i++) {
+                if (scoreEntries[i] == null) {
+                    continue;
+                }
+                font.setColor(scoreEntries[i].getId().equals(SettingsManager.getInstance().getPlayerId()) ?
+                        new Color(0, 1, 0, fetching ? .5f : 1) : new Color(1, 1, 1, fetching ? .5f : 1));
+                float y = (scrollbarMaximumY - i * Config.LINE_HEIGHT_HIGHSCORES + inputHandler.getDeltaY());
+                if (y > 0 && y <= scrollbarMaximumY) { // lines disappear when having y above topY and below 0
 
-		buttonsSettings[1][0].setChecked(prefs.getBoolean(PrefsKeys.Music));
-		((RetroImageToggleButton) buttonsSettings[1][0]).setToggled(prefs.getBoolean(PrefsKeys.Music));
-		buttonsSettings[1][1].setChecked(prefs.getBoolean(PrefsKeys.Sound));
-		((RetroImageToggleButton) buttonsSettings[1][1]).setToggled(prefs.getBoolean(PrefsKeys.Sound));
+                    // name
+                    stringBuilder.append(Utils.padLeft(i + 1, 3))
+                            .append(". ")
+                            .append(scoreEntries[i].getName().trim().length() == 0 ? VoraciousViper.getInstance().getBundle().get(I18NKeys.Unknown) : scoreEntries[i].getName());
+                    font.draw(stage.getBatch(), stringBuilder, xOffsetScoreTable + 10, y);
+                    stringBuilder.setLength(0);
 
-		buttonsSettings[3][0].setChecked(prefs.getString(PrefsKeys.Controls).equals(PrefsKeys.ControlsTouchAreas));
-		buttonsSettings[3][1].setChecked(prefs.getString(PrefsKeys.Controls).equals(PrefsKeys.ControlsTouchPad));
-		buttonsSettings[3][2].setChecked(prefs.getString(PrefsKeys.Controls).equals(PrefsKeys.ControlsRelative));
+                    // date
+                    font.draw(stage.getBatch(), scoreEntries[i].getDate(), xOffsetScoreTable + 240, y);
 
-		for (RetroTextButton button : buttonsMainMenu) {
-			button.autoSize();
-		}
-		((RetroTextButton) buttonsSettings[2][0]).autoSize();
-		updatePlayernameText();
-	}
+                    // numSteps
+                    font.draw(stage.getBatch(), scoreEntries[i].getNumSteps() + "", xOffsetScoreTable + 390, y);
 
-	public void keyboardInputCanceled() {
-		buttonsSettings[3][0].setChecked(false);
-	}
+                    // level
+                    font.draw(stage.getBatch(), stringBuilder.append(scoreEntries[i].getLevel()), xOffsetScoreTable + 460, y);
+                    stringBuilder.setLength(0);
 
-	public void updatePlayernameText() {
-		String playername = SettingsManager.getInstance().get().getString(PrefsKeys.PlayerName);
-		((RetroTextButton) buttonsSettings[2][0]).setText(VoraciousViper.getInstance().getBundle().get(I18NKeys.Playername) + ": " +
-				((playername.length() == 0) ? "<" + VoraciousViper.getInstance().getBundle().get(I18NKeys.Unknown) + ">" : playername));
-	}
+                    // score
+                    font.draw(stage.getBatch(), stringBuilder.append(scoreEntries[i].getScore()), xOffsetScoreTable + 510, y);
 
-	public Viewport getViewport() {
-		return viewport;
-	}
+                    stringBuilder.setLength(0);
+                }
+            }
+        } else {
+            font.draw(stage.getBatch(), customHighscoreText, xOffsetScoreTable + 10, scrollbarMaximumY);
+        }
+        if (fetching) {
+            font.setColor(Color.WHITE);
+            String fetching = VoraciousViper.getInstance().getBundle().get(I18NKeys.Fetching) + "...";
+            font.draw(stage.getBatch(), fetching,
+                    viewport.getWorldWidth() / 2 - Utils.getFontWidth(fetching, font) / 2 + xOffsetScoreTable,
+                    viewport.getWorldHeight() / 2 - Utils.getFontHeight(fetching, font) / 2);
+        }
+    }
 
-	public ScoreEntry[] getScoreEntries() {
-		return scoreEntries;
-	}
+    @Override
+    public void show() {
+        super.show();
+        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
+        camera.update();
+        xOffset = 0;
+        Gdx.input.setCatchBackKey(true);
+        Gdx.input.setInputProcessor(inputMultiplexer);
+    }
 
-	public void setScrollbarPositionY(float scrollbarPositionY) {
-		if (scrollbarHandle != null && scrollbarHandle.isVisible())
-			this.scrollbarCurrentY = scrollbarPositionY;
-	}
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width, height);
+    }
 
-	public RetroTextButton getCloseButton() {
-		return buttonClose;
-	}
+    private void synchronizeCheckedStatesOfSettingsButtons() {
+        Preferences prefs = SettingsManager.getInstance().get();
+        buttonsSettings[0][0].setChecked(prefs.getString(PrefsKeys.Language).equals(Locale.ENGLISH.toString()));
+        buttonsSettings[0][1].setChecked(prefs.getString(PrefsKeys.Language).equals(Locale.GERMAN.toString()));
 
-	public void setFetching(boolean fetching) {
-		this.fetching = fetching;
-	}
+        buttonsSettings[1][0].setChecked(prefs.getBoolean(PrefsKeys.Music));
+        ((RetroImageToggleButton) buttonsSettings[1][0]).setToggled(prefs.getBoolean(PrefsKeys.Music));
+        buttonsSettings[1][1].setChecked(prefs.getBoolean(PrefsKeys.Sound));
+        ((RetroImageToggleButton) buttonsSettings[1][1]).setToggled(prefs.getBoolean(PrefsKeys.Sound));
 
-	public void setScoreEntries(ScoreEntry[] scoreEntries) {
-		this.scoreEntries = scoreEntries;
-		scrollbarCurrentY = scrollbarMaximumY;
-		inputHandler.resetDeltaY();
-	}
+        buttonsSettings[3][0].setChecked(prefs.getString(PrefsKeys.Controls).equals(PrefsKeys.ControlsTouchAreas));
+        buttonsSettings[3][1].setChecked(prefs.getString(PrefsKeys.Controls).equals(PrefsKeys.ControlsTouchPad));
+        buttonsSettings[3][2].setChecked(prefs.getString(PrefsKeys.Controls).equals(PrefsKeys.ControlsRelative));
 
-	public int getNumScoreEntries() {
-		if (scoreEntries == null)
-			return 0;
-		return scoreEntries.length;
-	}
-	
-	public void setCustomHighscoreText(String customHighscoreText) {
-		this.customHighscoreText = customHighscoreText;
-	}
+        for (RetroTextButton button : buttonsMainMenu) {
+            button.autoSize();
+        }
+        ((RetroTextButton) buttonsSettings[2][0]).autoSize();
+        updatePlayernameText();
+    }
 
-	public TitleScreenState getState() {
-		return state;
-	}
+    public void keyboardInputCanceled() {
+        buttonsSettings[3][0].setChecked(false);
+    }
+
+    public void updatePlayernameText() {
+        String playername = SettingsManager.getInstance().get().getString(PrefsKeys.PlayerName);
+        ((RetroTextButton) buttonsSettings[2][0]).setText(VoraciousViper.getInstance().getBundle().get(I18NKeys.Playername) + ": " +
+                ((playername.length() == 0) ? "<" + VoraciousViper.getInstance().getBundle().get(I18NKeys.Unknown) + ">" : playername));
+    }
+
+    public Viewport getViewport() {
+        return viewport;
+    }
+
+    public ScoreEntry[] getScoreEntries() {
+        return scoreEntries;
+    }
+
+    public void setScrollbarPositionY(float scrollbarPositionY) {
+        if (scrollbarHandle != null && scrollbarHandle.isVisible())
+            this.scrollbarCurrentY = scrollbarPositionY;
+    }
+
+    public RetroTextButton getCloseButton() {
+        return buttonClose;
+    }
+
+    public void setFetching(boolean fetching) {
+        this.fetching = fetching;
+    }
+
+    public void setScoreEntries(ScoreEntry[] scoreEntries) {
+        this.scoreEntries = scoreEntries;
+        scrollbarCurrentY = scrollbarMaximumY;
+        inputHandler.resetDeltaY();
+    }
+
+    public int getNumScoreEntries() {
+        if (scoreEntries == null)
+            return 0;
+        return scoreEntries.length;
+    }
+
+    public void setCustomHighscoreText(String customHighscoreText) {
+        this.customHighscoreText = customHighscoreText;
+    }
+
+    public TitleScreenState getState() {
+        return state;
+    }
 
 }

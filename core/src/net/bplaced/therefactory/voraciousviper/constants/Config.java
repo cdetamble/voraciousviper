@@ -35,7 +35,7 @@ public class Config {
 
     // app
 	public static final String GAME_TITLE = "VoVi: Voracious Viper";
-    public static final String GAME_VERSION_NAME = "1.0.3";
+    public static final String GAME_VERSION_NAME = "1.0.4";
     public static final int GAME_VERSION_CODE = 7;
 
     // game play
@@ -59,5 +59,9 @@ public class Config {
 	// other
 	public static final int MAX_LENGTH_PLAYERNAME = 20;
 	public static final int LINE_HEIGHT_HIGHSCORES = 11;
+
+	// uris
+    public static final String URL_TO_SOUNDTRACK = "https://goo.gl/imaHWj";
+    public static final String URL_TO_PLAY_STORE = "https://goo.gl/g0przi";
 
 }
