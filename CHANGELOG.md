@@ -3,11 +3,11 @@ Voracious Viper - Changelog
 
 ### Version 1.0.4 - February 26, 2018
 
-• Updated to libGDX v1.9.8 with lots of fixes and improvements
-• Optimized for latest Android versions
-• Added button to download the Soundtrack
-• Added button to rate the app
-• Minor visual improvements
+* Updated to libGDX v1.9.8 with lots of fixes and improvements
+* Optimized for latest Android versions
+* Added button to download the Soundtrack
+* Added button to rate the app
+* Minor visual improvements
 
 ### Version 1.0.3 - January 3, 2017
 
